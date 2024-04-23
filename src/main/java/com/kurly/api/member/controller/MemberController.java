@@ -36,8 +36,8 @@ public class MemberController {
     private final CustomLogoutHandler customLogoutHandler;
 
     @PostMapping("/signup")
-    public ResponseEntity<?> signUp(@RequestBody MemberSignUp memberSignUp, RoleType roleType){
-        boolean isSuccess = memberService.signUp(memberSignUp,roleType);
+    public ResponseEntity<?> signUp(@RequestBody MemberSignUp memberSignUp){
+        boolean isSuccess = memberService.signUp(memberSignUp);
 
         if(isSuccess){
             return ResponseEntity.ok(Collections.singletonMap("message","회원가입이 완료되었습니다."));

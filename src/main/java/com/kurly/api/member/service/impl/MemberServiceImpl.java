@@ -36,8 +36,7 @@ public class MemberServiceImpl implements MemberService {
     private final JwtTokenProvider jwtTokenProvider;
 
     @Override
-    public boolean signUp(MemberSignUp memberSignUp, RoleType roleType) {
-        memberSignUp.setRole(RoleType.USER);
+    public boolean signUp(MemberSignUp memberSignUp) {
 
         String email = memberSignUp.getEmail();
         String password = memberSignUp.getPassword();

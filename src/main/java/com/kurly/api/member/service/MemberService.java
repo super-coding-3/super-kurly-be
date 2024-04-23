@@ -15,5 +15,5 @@ import com.kurly.api.member.model.MemberSignUp;
  * 2024-04-23        hagjoon       최초 생성
  */
 public interface MemberService {
-    boolean signUp(MemberSignUp memberSignUp, RoleType roleType);
+    boolean signUp(MemberSignUp memberSignUp);
 }
