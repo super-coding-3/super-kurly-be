@@ -17,5 +17,6 @@ spring:
         format_sql : true
         show_sql : true
 
+security:
   jwt:
-    secret-key-source: ${JWT_SECRET_KEY}
+    secret-key: ${JWT_SECRET_KEY}

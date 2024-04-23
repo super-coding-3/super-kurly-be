@@ -37,7 +37,7 @@ public class SecurityConfig {
 
     private static final String[] AUTH_WHITELIST = {
             "/api/**","/swagger-ui/**","/api-docs","/swagger-ui-custom.html",
-            "/swagger-ui.html","/v2/api-docs","/swagger/","/swagger-resources/"
+            "/swagger-ui.html","/swagger/","/swagger-resources/"
     };
 
     @Bean
@@ -55,8 +55,10 @@ public class SecurityConfig {
                             response.setCharacterEncoding("UTF-8");
                             response.getWriter().write("{\"mesage\": \"로그아웃이 완료되었습니다.\"}");
                         })
-                        .permitAll()).exceptionHandling(e->e.authenticationEntryPoint(new CustomAuthenticationEntryPoint())
-                        .accessDeniedPage(new CustomerAccessDeniedHandler().toString())).addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+                        .permitAll())
+                .exceptionHandling(e->e.authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+                        .accessDeniedHandler(new CustomerAccessDeniedHandler()))
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
 
         http.with(new MyCustomDs(),myCustomDs -> myCustomDs.getClass());
 

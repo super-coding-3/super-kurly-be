@@ -38,7 +38,7 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class JwtTokenProvider {
 
-    @Value("${jwt.secret-key-source}")
+    @Value("${security.jwt.secret-key}")
     private String secretKeySource;
 
     private Key key;
