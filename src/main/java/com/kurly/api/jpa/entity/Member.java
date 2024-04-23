@@ -1,10 +1,7 @@
 package com.kurly.api.jpa.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 /**
  * packageName    : com.kurly.api.jpa.entity
@@ -19,6 +16,7 @@ import lombok.NoArgsConstructor;
  */
 @Entity
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
