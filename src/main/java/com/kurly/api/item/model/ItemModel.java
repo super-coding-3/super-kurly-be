@@ -6,6 +6,7 @@ import com.kurly.api.jpa.entity.Item;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -21,6 +22,7 @@ import java.time.format.DateTimeFormatter;
  * -----------------------------------------------------------
  * 2024-04-23        hagjoon       최초 생성
  */
+@Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
