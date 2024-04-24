@@ -1,11 +1,8 @@
-package com.kurly.api.member.service;
-
-import com.kurly.api.jpa.entity.RoleType;
-import com.kurly.api.member.model.MemberSignUp;
+package com.kurly.api.jpa.entity;
 
 /**
- * packageName    : com.kurly.api.member.service
- * fileName       : MemberService
+ * packageName    : com.kurly.api.jpa.entity
+ * fileName       : RoleType
  * author         : hagjoon
  * date           : 2024-04-23
  * description    :
@@ -14,6 +11,6 @@ import com.kurly.api.member.model.MemberSignUp;
  * -----------------------------------------------------------
  * 2024-04-23        hagjoon       최초 생성
  */
-public interface MemberService {
-    boolean signUp(MemberSignUp memberSignUp);
+public enum RoleType {
+    USER
 }

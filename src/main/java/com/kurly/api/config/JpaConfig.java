@@ -26,17 +26,17 @@ import java.util.Map;
  */
 @Configuration
 @EnableJpaRepositories(
-        basePackages = {"com.kurly.api.jpa.repository"},
+        basePackages = {"com.kurly.api.jpa"},
         entityManagerFactoryRef = "entityManagerFactoryBean",
         transactionManagerRef = "emJpa"
 )
 public class JpaConfig {
 
-    @Bean
+    @Bean(name = "entityManagerFactoryBean")
     public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean(DataSource dataSource){
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource);
-        em.setPackagesToScan("com.kurly.api.jpa.repository");
+        em.setPackagesToScan("com.kurly.api.jpa");
 
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
@@ -52,7 +52,7 @@ public class JpaConfig {
 
     }
 
-    @Bean(name = "tmJpa")
+    @Bean(name = "emJpa")
     public PlatformTransactionManager transactionManager (DataSource dataSource){
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(entityManagerFactoryBean(dataSource).getObject());
