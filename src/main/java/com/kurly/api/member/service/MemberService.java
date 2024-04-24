@@ -1,6 +1,7 @@
 package com.kurly.api.member.service;
 
 import com.kurly.api.jpa.entity.RoleType;
+import com.kurly.api.member.model.MemberLogIn;
 import com.kurly.api.member.model.MemberSignUp;
 
 /**
@@ -16,4 +17,6 @@ import com.kurly.api.member.model.MemberSignUp;
  */
 public interface MemberService {
     boolean signUp(MemberSignUp memberSignUp);
+
+    String login(MemberLogIn login);
 }
