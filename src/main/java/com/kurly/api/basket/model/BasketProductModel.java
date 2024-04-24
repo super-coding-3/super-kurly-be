@@ -2,30 +2,20 @@ package com.kurly.api.basket.model;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.kurly.api.jpa.entity.Item;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-/**
- * packageName    : com.kurly.api.basket.model
- * fileName       : BasketModel
- * author         : hagjoon
- * date           : 2024-04-23
- * description    :
- * ===========================================================
- * DATE              AUTHOR             NOTE
- * -----------------------------------------------------------
- * 2024-04-23        hagjoon       최초 생성
- */
+import java.util.List;
+
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-public class BasketModel {
+public class BasketProductModel {
     private Integer basketId;
-    private Integer memberId;
+    private List<Item> items;
     private Integer totalPrice;
     private Integer totalAmount;
-
-
 }
