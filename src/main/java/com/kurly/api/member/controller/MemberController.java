@@ -4,6 +4,7 @@ import com.kurly.api.config.security.CustomLogoutHandler;
 import com.kurly.api.jpa.entity.RoleType;
 import com.kurly.api.member.model.MemberSignUp;
 import com.kurly.api.member.service.MemberService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +37,7 @@ public class MemberController {
     private final CustomLogoutHandler customLogoutHandler;
 
     @PostMapping("/signup")
+    @Operation(summary = "회원 가입")
     public ResponseEntity<?> signUp(@RequestBody MemberSignUp memberSignUp){
         boolean isSuccess = memberService.signUp(memberSignUp);
 
