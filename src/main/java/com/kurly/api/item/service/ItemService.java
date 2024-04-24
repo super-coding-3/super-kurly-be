@@ -1,5 +1,9 @@
 package com.kurly.api.item.service;
 
+import com.kurly.api.item.model.ItemModel;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 /**
  * packageName    : com.kurly.api.item.service
  * fileName       : ItemService
@@ -12,4 +16,6 @@ package com.kurly.api.item.service;
  * 2024-04-23        hagjoon       최초 생성
  */
 public interface ItemService {
+
+    Page<ItemModel> findAllWithPageable(Pageable pageable);
 }

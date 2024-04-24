@@ -1,6 +1,7 @@
 package com.kurly.api.item.controller;
 
 import com.kurly.api.item.model.ItemModel;
+import com.kurly.api.item.service.ItemService;
 import com.kurly.api.item.service.impl.ItemServiceImpl;
 import com.kurly.api.jpa.entity.Item;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +33,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ItemController {
 
-    private final ItemServiceImpl itemService;
+    private final ItemService itemService;
 
     @GetMapping("/page")
     public ResponseEntity<Page<ItemModel>> findAllItemPagination(@PageableDefault(size = 10)Pageable pageable){
