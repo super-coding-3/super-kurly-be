@@ -8,6 +8,7 @@ import com.kurly.api.member.model.MemberSignUp;
 import com.kurly.api.member.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -80,6 +81,13 @@ public class MemberController {
             errorBody.put("error","로그인 처리 중 문제가 발생하였습니다.");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorBody);
         }
+    }
+
+    @Operation(summary = "로그아웃")
+    @PostMapping("/logout")
+    public void logout(HttpServletRequest request, HttpServletResponse response){
+        customLogoutHandler.logout(request,response,null);
+        log.info("로그아웃 완료");
     }
 
 
