@@ -4,10 +4,15 @@ import com.kurly.api.config.jwt.JwtTokenProvider;
 import com.kurly.api.jpa.entity.Member;
 import com.kurly.api.jpa.entity.RoleType;
 import com.kurly.api.jpa.repository.MemberRepository;
+import com.kurly.api.member.model.MemberLogIn;
 import com.kurly.api.member.model.MemberSignUp;
 import com.kurly.api.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +37,8 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
 
     private final PasswordEncoder passwordEncoder;
+
+    private final AuthenticationManager authenticationManager;
 
     private final JwtTokenProvider jwtTokenProvider;
 
@@ -59,5 +66,16 @@ public class MemberServiceImpl implements MemberService {
                                 .role(role)
                         .build()));
         return true;
+    }
+
+    @Override
+    public String login(MemberLogIn login) {
+        String email = login.getEmail();
+        String password = login.getPassword();
+
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(email,password));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        return jwtTokenProvider.createToken(email);
     }
 }
