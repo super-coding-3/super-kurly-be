@@ -46,3 +46,6 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+tasks.named('bootJar'){
+    mainClass = 'com.kurly.api.ApiApplication'
+}
