@@ -21,7 +21,7 @@ public class Purchase {
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id")
-    private List<Item> item =new ArrayList<>();
+    private List<Item> item = new ArrayList<>();
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
