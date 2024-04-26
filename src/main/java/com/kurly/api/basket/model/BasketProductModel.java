@@ -12,7 +12,6 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class BasketProductModel {
     private Integer basketId;
     private List<Item> items;

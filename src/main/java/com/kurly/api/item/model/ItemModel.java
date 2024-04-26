@@ -26,7 +26,6 @@ import java.time.format.DateTimeFormatter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class ItemModel {
     private Integer productId;
     private String name;
