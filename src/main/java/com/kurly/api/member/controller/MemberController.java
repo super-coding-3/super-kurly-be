@@ -15,10 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -55,6 +52,18 @@ public class MemberController {
             return ResponseEntity.ok(Collections.singletonMap("message","회원가입이 완료되었습니다."));
         }else {
             return ResponseEntity.badRequest().body(Collections.singletonMap("message","회원가입에 실패했습니다."));
+        }
+    }
+
+    @GetMapping("/signUpValid")
+    @Operation(summary = "회원 가입 이메일 중복체크")
+    public ResponseEntity<?> sigUpValidCheck(@RequestParam(value = "email") String email){
+        boolean isSuccess = memberService.signUpValidCheck(email);
+
+        if(isSuccess){
+            return ResponseEntity.ok(Collections.singletonMap("message","이미 존재하는 email 입니다."));
+        }else{
+            return ResponseEntity.ok(Collections.singletonMap("message","사용 가능한 email 입니다."));
         }
     }
 
