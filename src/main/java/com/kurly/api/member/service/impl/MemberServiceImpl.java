@@ -17,6 +17,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 
 /**
  * packageName    : com.kurly.api.member.service.impl
@@ -66,6 +68,11 @@ public class MemberServiceImpl implements MemberService {
                                 .role(role)
                         .build()));
         return true;
+    }
+
+    @Override
+    public boolean signUpValidCheck(String email) {
+        return memberRepository.existsByEmail(email);
     }
 
     @Override
