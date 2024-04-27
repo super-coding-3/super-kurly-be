@@ -25,7 +25,6 @@ import java.time.format.DateTimeFormatter;
  */
 @Setter
 @Getter
-@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

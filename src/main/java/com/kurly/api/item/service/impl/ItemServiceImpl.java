@@ -10,10 +10,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import java.util.ArrayList;
@@ -61,13 +61,6 @@ public class ItemServiceImpl implements ItemService {
             throw new NotFoundException("해당 아이템을 찾수 없습니다:" + id);
         }
     }
-}
-@RequiredArgsConstructor
-@Slf4j
-public class ItemServiceImpl implements ItemService {
-    private final ItemRepository itemRepository;
-
-
     public Page<ItemModel> findAllWithPageable( Pageable pageable) {
         Page<Item> items=itemRepository.findAll(pageable);
         List<ItemModel> itemModels= new ArrayList<>();
@@ -81,7 +74,7 @@ public class ItemServiceImpl implements ItemService {
                 itemModel.setColor(item.getColor());
                 itemModel.setPrice(item.getPrice());
                 itemModel.setDescription(item.getDescription());
-                itemModel.setCreateAt(item.getCreateAt().toString());
+                itemModel.setCreateAt(LocalDateTime.parse(item.getCreateAt().toString()));
                 itemModel.setImg(item.getImg());
 
                 itemModels.add(itemModel);
