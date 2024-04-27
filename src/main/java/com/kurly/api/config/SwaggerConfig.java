@@ -26,7 +26,7 @@ import java.util.Arrays;
 @OpenAPIDefinition(
         info = @Info(title = "super-kurly API 명세서",
         description = "슈퍼컬리 API 명세서",
-        version = "v1")
+        version = "v3")
 )
 @Configuration
 public class SwaggerConfig {

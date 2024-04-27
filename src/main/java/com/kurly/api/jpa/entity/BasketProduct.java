@@ -20,7 +20,7 @@ public class BasketProduct {
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id")
-    private List<Item> item =new ArrayList<>();
+    private List<Item> item;
 
     @Column(name = "total_price")
     private Integer totalPrice;

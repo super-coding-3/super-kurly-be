@@ -4,6 +4,10 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.kurly.api.jpa.entity.Item;
 import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -19,12 +23,12 @@ import java.time.format.DateTimeFormatter;
  * -----------------------------------------------------------
  * 2024-04-23        hagjoon       최초 생성
  */
+@Setter
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class ItemModel {
     private Integer productId;
     private String name;

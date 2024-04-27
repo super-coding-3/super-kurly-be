@@ -16,7 +16,6 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class PurchaseModel {
     private Integer purchaseId;
     private List<Item> items;
