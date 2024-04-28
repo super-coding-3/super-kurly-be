@@ -1,8 +1,11 @@
 package com.kurly.api.item.service;
 
+import com.kurly.api.item.model.ItemAllPage;
 import com.kurly.api.item.model.ItemModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 /**
  * packageName    : com.kurly.api.item.service
@@ -16,6 +19,9 @@ import org.springframework.data.domain.Pageable;
  * 2024-04-23        hagjoon       최초 생성
  */
 public interface ItemService {
+    Page<ItemAllPage> findAllWithPageable(Pageable pageable);
 
-    Page<ItemModel> findAllWithPageable(Pageable pageable);
+    ItemModel findById(String id);
+
+    List<ItemModel> findByIdWithNameJoinOption(String id);
 }

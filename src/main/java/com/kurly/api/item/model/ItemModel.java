@@ -3,6 +3,7 @@ package com.kurly.api.item.model;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.kurly.api.jpa.entity.Item;
+import com.kurly.api.jpa.entity.Options;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,6 +11,7 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 /**
  * packageName    : com.kurly.api.item.model
@@ -31,10 +33,13 @@ public class ItemModel {
     private Integer productId;
     private String name;
     private Integer amount;
-    private String color;
     private Integer price;
     private String description;
     private String createAt;
+    private Options options;
+    private String optionTitle;
+    private String optionPrice;
+    private byte[] descriptionImg;
     private byte[] img;
 
     private static DateTimeFormatter formatter=
@@ -44,7 +49,6 @@ public class ItemModel {
         this.productId= item.getProductId();
         this.name= item.getName();
         this.amount=item.getAmount();
-        this.color= item.getColor();
         this.price= item.getPrice();
         this.description= item.getDescription();
         this.createAt=item.getCreateAt().format(formatter);

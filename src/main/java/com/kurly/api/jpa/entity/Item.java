@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -22,9 +23,6 @@ public class Item {
     @Column(name = "amount")
     private Integer amount;
 
-    @Column(name = "color", length = 10)
-    private String color;
-
     @Column(name = "price")
     private Integer price;
 
@@ -36,4 +34,11 @@ public class Item {
 
     @Column(name = "img")
     private byte[] img;
+
+    @OneToMany
+    @JoinColumn(name = "option_id")
+    private List<Options> options;
+
+    @Column(name = "description_img")
+    private byte[] descriptionImg;
 }
