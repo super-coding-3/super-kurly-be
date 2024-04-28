@@ -4,6 +4,7 @@ import com.kurly.api.item.model.ItemAllPage;
 import com.kurly.api.item.model.ItemModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 
 /**
  * packageName    : com.kurly.api.item.service
@@ -19,4 +20,6 @@ import org.springframework.data.domain.Pageable;
 public interface ItemService {
 
     Page<ItemAllPage> findAllWithPageable(Pageable pageable);
+
+    ItemModel findItemDetail(String id);
 }
