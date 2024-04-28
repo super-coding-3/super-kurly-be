@@ -11,11 +11,10 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class ItemAllPage {
     private String name;
     private Integer price;
-    private Integer Amount;
+    private Integer amount;
     private String description;
     private byte[] img;
 

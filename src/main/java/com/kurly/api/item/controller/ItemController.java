@@ -1,5 +1,6 @@
 package com.kurly.api.item.controller;
 
+import com.kurly.api.item.model.ItemAllPage;
 import com.kurly.api.item.model.ItemModel;
 import com.kurly.api.item.service.ItemService;
 import com.kurly.api.item.service.impl.ItemServiceImpl;
@@ -36,8 +37,8 @@ public class ItemController {
     private final ItemService itemService;
 
     @GetMapping("/page")
-    public ResponseEntity<Page<ItemModel>> findAllItemPagination(@PageableDefault(size = 10)Pageable pageable){
-        Page<ItemModel> page = itemService.findAllWithPageable(pageable);
+    public ResponseEntity<Page<ItemAllPage>> findAllItemPagination(@PageableDefault(size = 10)Pageable pageable){
+        Page<ItemAllPage> page = itemService.findAllWithPageable(pageable);
         return ResponseEntity.ok().body(page);
     }
 

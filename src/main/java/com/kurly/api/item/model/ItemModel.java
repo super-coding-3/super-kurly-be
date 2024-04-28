@@ -26,12 +26,10 @@ import java.time.format.DateTimeFormatter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class ItemModel {
     private Integer productId;
     private String name;
     private Integer amount;
-    private String color;
     private Integer price;
     private String description;
     private String createAt;
@@ -44,7 +42,6 @@ public class ItemModel {
         this.productId= item.getProductId();
         this.name= item.getName();
         this.amount=item.getAmount();
-        this.color= item.getColor();
         this.price= item.getPrice();
         this.description= item.getDescription();
         this.createAt=item.getCreateAt().format(formatter);

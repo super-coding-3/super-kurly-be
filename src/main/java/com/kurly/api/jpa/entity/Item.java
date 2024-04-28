@@ -22,9 +22,6 @@ public class Item {
     @Column(name = "amount")
     private Integer amount;
 
-    @Column(name = "color", length = 10)
-    private String color;
-
     @Column(name = "price")
     private Integer price;
 
