@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -33,4 +34,10 @@ public class Item {
 
     @Column(name = "img")
     private byte[] img;
+
+    @Column(name = "description_img")
+    private byte[] descriptionImg;
+
+    @OneToMany(mappedBy = "product")
+    private List<Options> options;
 }

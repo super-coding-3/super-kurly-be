@@ -2,8 +2,10 @@ package com.kurly.api.item.service.impl;
 
 import com.kurly.api.item.model.ItemAllPage;
 import com.kurly.api.item.model.ItemModel;
+import com.kurly.api.item.model.OptionModel;
 import com.kurly.api.item.service.ItemService;
 import com.kurly.api.jpa.entity.Item;
+import com.kurly.api.jpa.entity.Options;
 import com.kurly.api.jpa.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,10 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * packageName    : com.kurly.api.item.service.impl
@@ -34,6 +33,7 @@ import java.util.Map;
 @Slf4j
 public class ItemServiceImpl implements ItemService {
     private final ItemRepository itemRepository;
+//    private final OptionRepository optionRepository;
 
 
     @Override
@@ -82,4 +82,35 @@ public class ItemServiceImpl implements ItemService {
         return new PageImpl<>(itemModels, pageable, itemModels.size());
 
     }
+
+    @Override
+    public ItemModel findItemDetail(String id) {
+
+        Integer productId=Integer.parseInt(id);
+        Item item =itemRepository.findById(productId).orElseThrow(
+                ()-> new IllegalArgumentException("해당 제품은 없습니다."));
+
+
+        ItemModel itemModel=new ItemModel();
+        itemModel.setName(item.getName());
+        itemModel.setDescription(item.getDescription());
+        itemModel.setPrice(item.getPrice());
+        itemModel.setImg(item.getImg());
+        itemModel.setDescriptionImg(item.getDescriptionImg());
+
+        List<OptionModel> optionModels=new ArrayList<>();
+        for (Options option :item.getOptions()){
+            if (productId.equals(option.getProduct().getProductId())) {
+                OptionModel optionModel = new OptionModel();
+                optionModel.setPrice(option.getPrice());
+                optionModel.setTitle(option.getTitle());
+                optionModels.add(optionModel);
+            }
+        }
+
+        itemModel.setOptions(optionModels);
+
+        return itemModel;
+    }
+
 }
