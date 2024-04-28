@@ -1,7 +1,7 @@
 package com.kurly.api.basket.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.kurly.api.jpa.entity.Member;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * packageName    : com.kurly.api.basket.controller
@@ -17,4 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/basket")
 public class BasketController {
+
+//    @PostMapping("/{id}/{itemId}")
+//    public void itemBasket(@PathVariable("id") Integer id, @PathVariable("itemId") Integer itemId, int amount){
+//        Member member =mem
+//    }
 }
