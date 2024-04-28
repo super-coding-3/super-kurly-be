@@ -15,7 +15,8 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "product")
 public class Item {
-    @Id@Column(name = "product_id")@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id@Column(name = "product_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer productId;
 
     @Column(name = "name", length = 30)
@@ -23,9 +24,6 @@ public class Item {
 
     @Column(name = "amount", nullable = false)
     private Integer amount;
-
-    @Column(name = "color", length = 10)
-    private String color;
 
     @Column(name = "price")
     private Integer price;
@@ -44,7 +42,6 @@ public class Item {
                 .productId(itemModel.getProductId())
                 .name(itemModel.getName())
                 .amount(itemModel.getAmount())
-                .color(itemModel.getColor())
                 .price(itemModel.getPrice())
                 .description(itemModel.getDescription())
                 .createAt(itemModel.getCreateAt())
@@ -55,7 +52,6 @@ public class Item {
         return  Item.builder()
                 .name(itemRQ.getName())
                 .amount(itemRQ.getAmount())
-                .color(itemRQ.getColor())
                 .price(itemRQ.getPrice())
                 .description(itemRQ.getDescription())
                 .createAt(itemRQ.getCreateAt())
@@ -67,7 +63,6 @@ public class Item {
                 .productId(itemModel.getProductId())
                 .name(itemModel.getName())
                 .amount(itemModel.getAmount())
-                .color(itemModel.getColor())
                 .price(itemModel.getPrice())
                 .description(itemModel.getDescription())
                 .createAt(itemModel.getCreateAt())

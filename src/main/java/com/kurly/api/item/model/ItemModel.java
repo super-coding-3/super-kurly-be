@@ -32,7 +32,6 @@ public class ItemModel {
     private Integer productId;
     private String name;
     private Integer amount;
-    private String color;
     private Integer price;
     private String description;
     private LocalDateTime createAt;
@@ -45,7 +44,6 @@ public class ItemModel {
         this.productId = item.getProductId();
         this.name = item.getName();
         this.amount = item.getAmount();
-        this.color = item.getColor();
         this.price = item.getPrice();
         this.description = item.getDescription();
         this.createAt = getCreateAt();
@@ -57,7 +55,6 @@ public class ItemModel {
                 .productId(item.getProductId())
                 .name(item.getName())
                 .amount(item.getAmount())
-                .color(item.getColor())
                 .price(item.getPrice())
                 .description(item.getDescription())
                 .createAt(item.getCreateAt())

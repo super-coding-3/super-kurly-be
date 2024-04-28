@@ -71,7 +71,6 @@ public class ItemServiceImpl implements ItemService {
                 itemModel.setProductId(item.getProductId());
                 itemModel.setName(item.getName());
                 itemModel.setAmount(item.getAmount());
-                itemModel.setColor(item.getColor());
                 itemModel.setPrice(item.getPrice());
                 itemModel.setDescription(item.getDescription());
                 itemModel.setCreateAt(LocalDateTime.parse(item.getCreateAt().toString()));
@@ -82,4 +81,6 @@ public class ItemServiceImpl implements ItemService {
         }
         return new PageImpl<>(itemModels, pageable,items.getTotalElements());
     }
+
+
 }
