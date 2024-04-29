@@ -1,12 +1,10 @@
 package com.kurly.api.memberMyPage.service;
 
 import com.kurly.api.jpa.entity.BasketProduct;
-import com.kurly.api.jpa.entity.Item;
 import com.kurly.api.jpa.entity.Member;
-import com.kurly.api.jpa.repository.BasketProductJpaRepository;
+import com.kurly.api.jpa.repository.BasketProductRepository;
+import com.kurly.api.jpa.repository.MemberRepository;
 import com.kurly.api.memberMyPage.dto.MemberInfo;
-import com.kurly.api.jpa.repository.MemberInfoJpaRepository;
-import com.kurly.api.memberMyPage.dto.MyBaseketProduct;
 import com.kurly.api.memberMyPage.dto.MyProduct;
 import com.kurly.api.memberMyPage.service.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
@@ -22,12 +20,12 @@ import java.util.stream.Collectors;
 @Slf4j
 public class MemberMyPageService {
 
-    private final MemberInfoJpaRepository memberInfoJpaRepository;
-    private final BasketProductJpaRepository basketProductJpaRepository;
+    private final MemberRepository memberRepository;
+    private final BasketProductRepository basketProductRepository;
 
     public MemberInfo findMemberInfoById(Long id) {
 
-        Member member = memberInfoJpaRepository.findById(id)
+        Member member = memberRepository.findById(id)
                                         .orElseThrow(() -> new NotFoundException("해당 ID를 찾을 수 없습니다."));
 
         MemberInfo memberInfo = MemberMapper.INSTANCE.memberToMemberInfo(member);
@@ -37,11 +35,11 @@ public class MemberMyPageService {
 
 
     public List<MyProduct> findBasketProduct(Long id) {
-        Member member = memberInfoJpaRepository.findById(id)
+        Member member = memberRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("해당 ID를 찾을 수 없습니다."));
         Integer intId = id.intValue();
         if (member != null) {
-            List<BasketProduct> basketProducts = basketProductJpaRepository.findMyInfoAndMyProduct(intId);
+            List<BasketProduct> basketProducts = basketProductRepository.findMyInfoAndMyProduct(intId);
             return basketProducts.stream().map(MyProduct::new).collect(Collectors.toList());
         }
         else {
