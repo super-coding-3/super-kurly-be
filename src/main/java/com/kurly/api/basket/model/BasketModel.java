@@ -26,5 +26,4 @@ public class BasketModel {
     private Integer totalPrice;
     private Integer totalAmount;
 
-
 }

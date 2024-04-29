@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.kurly.api.jpa.entity.Item;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
+import com.kurly.api.jpa.entity.Options;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,6 +13,7 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 /**
  * packageName    : com.kurly.api.item.model
@@ -26,7 +28,6 @@ import java.time.format.DateTimeFormatter;
  */
 @Setter
 @Getter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
@@ -46,9 +47,16 @@ public class ItemModel {
     @Schema(description = "물품등록시간")
     private LocalDateTime createAt;
     @Schema(description = "제품이미지")
+    private String createAt;
+    private List<OptionModel> options;
     private byte[] img;
+    private byte[] descriptionImg;
+    private String origin;
+    private String shippingMethod;
+    private String sellerName;
+    private byte[] productInformationImg;
 
-    private static DateTimeFormatter formatter =
+    private static DateTimeFormatter formatter=
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     public ItemModel(Item item) {
@@ -76,6 +84,3 @@ public class ItemModel {
                 .build();
     }
 }
-
-
-

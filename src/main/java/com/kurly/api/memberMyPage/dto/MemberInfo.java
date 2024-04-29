@@ -1,10 +1,13 @@
 package com.kurly.api.memberMyPage.dto;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.kurly.api.jpa.entity.Member;
 import com.kurly.api.jpa.entity.RoleType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @Getter
 @Setter
 @NoArgsConstructor

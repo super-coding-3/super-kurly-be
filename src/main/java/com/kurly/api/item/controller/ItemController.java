@@ -19,8 +19,8 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Collections;
+import com.kurly.api.item.model.ItemAllPage;
 import com.kurly.api.item.service.ItemService;
-import com.kurly.api.jpa.entity.Item;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.webjars.NotFoundException;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.SimpleTimeZone;
@@ -52,7 +53,6 @@ import java.util.SimpleTimeZone;
 @RequiredArgsConstructor
 @Slf4j
 public class ItemController {
-  
     private final ItemService itemService;
 
     @PostMapping("/posts")
@@ -90,8 +90,14 @@ public class ItemController {
     }
 
     @GetMapping("/page")
-    public ResponseEntity<Page<ItemModel>> findAllItemPagination(@PageableDefault(size = 10)Pageable pageable){
-        Page<ItemModel> page = itemService.findAllWithPageable(pageable);
+    public ResponseEntity<Page<ItemAllPage>> findAllItemPagination(@PageableDefault(size = 10)Pageable pageable){
+        Page<ItemAllPage> page = itemService.findAllWithPageable(pageable);
         return ResponseEntity.ok().body(page);
+    }
+
+
+    @GetMapping("/page/{id}")
+    public ItemModel findDetailItem(@PathVariable String id){
+        return itemService.findItemDetail(id);
     }
 }

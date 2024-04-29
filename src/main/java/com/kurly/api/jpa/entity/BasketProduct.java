@@ -18,9 +18,13 @@ public class BasketProduct {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer basketId;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id")
-    private List<Item> item;
+    private Item item;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "basket_id")
+    private  Basket basket;
 
     @Column(name = "total_price")
     private Integer totalPrice;

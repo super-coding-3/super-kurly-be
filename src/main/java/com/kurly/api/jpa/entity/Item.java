@@ -1,11 +1,10 @@
 package com.kurly.api.jpa.entity;
 
-import com.kurly.api.item.model.ItemModel;
-import com.kurly.api.item.model.ItemRp;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -21,11 +20,8 @@ public class Item {
     @Column(name = "name", length = 30)
     private String name;
 
-    @Column(name = "amount", nullable = false)
+    @Column(name = "amount")
     private Integer amount;
-
-    @Column(name = "color", length = 10)
-    private String color;
 
     @Column(name = "price")
     private Integer price;
@@ -36,8 +32,26 @@ public class Item {
     @Column(name = "create_at")
     private LocalDateTime createAt;
 
-    @Column(name = "img" )
+    @Column(name = "img")
     private byte[] img;
+  
+    @Column(name = "description_img")
+    private byte[] descriptionImg;
+
+    @OneToMany(mappedBy = "product")
+    private List<Options> options;
+
+    @Column(name = "origin")
+    private String origin;
+
+    @Column(name = "shipping_method")
+    private String shippingMethod;
+
+    @Column(name = "seller_name")
+    private String sellerName;
+
+    @Column(name = "product_information_img")
+    private byte[] productInformationImg;
 
     public static Item toDto(ItemModel itemModel){
         return Item.builder()
