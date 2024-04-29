@@ -1,6 +1,7 @@
 package com.kurly.api.jpa.repository;
 
 import com.kurly.api.jpa.entity.BasketProduct;
+import com.kurly.api.jpa.entity.MyBasketAndMyProduct;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -15,6 +16,6 @@ public interface BasketProductJpaRepository extends JpaRepository<BasketProduct,
             "JOIN bp.item i " +
             "JOIN b.member m " +
             "WHERE m.memberId = :id ")
-    List<BasketProduct> findMyInfoAndMyProduct(Integer intId);
+    List<MyBasketAndMyProduct> findMyInfoAndMyProduct(Integer intId);
 
 }
