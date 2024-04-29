@@ -31,13 +31,13 @@ public class MemberSignUp {
     private String password;
 
     @Schema(description = "이름")
-    private String name;
+    private String userName;
 
     @Schema(description = "핸드폰번호")
     private String phone;
 
     @Schema(description = "주소")
-    private String addr;
+    private String address;
 
     @Schema(description = "성별")
     private String gender;
