@@ -18,5 +18,7 @@ import com.kurly.api.member.model.MemberSignUp;
 public interface MemberService {
     boolean signUp(MemberSignUp memberSignUp);
 
+    boolean signUpValidCheck(String email);
+
     String login(MemberLogIn login);
 }

@@ -8,6 +8,14 @@ import com.kurly.api.jpa.entity.Item;
 import com.kurly.api.jpa.repository.BasketProductRepository;
 import com.kurly.api.jpa.repository.BasketRepository;
 import lombok.RequiredArgsConstructor;
+import com.kurly.api.jpa.repository.OptionRepository;
+import com.kurly.api.jpa.entity.Member;
+import com.kurly.api.jpa.entity.Options;
+import com.kurly.api.jpa.repository.MemberRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 
@@ -30,6 +38,8 @@ public class BasketServiceImpl implements BasketService {
 
     private final BasketRepository basketRepository;
     private final BasketProductRepository basketProductRepository;
+    private final OptionRepository optionRepository;
+    private final MemberRepository memberRepository;
 
 
     public BasketProductModel updateBasket(Integer basketId, BasketProductModel basketProductModel) {
@@ -41,4 +51,24 @@ public class BasketServiceImpl implements BasketService {
 
         return basketProductModel;
     }
+
+    @Override
+    public void createCart(String id,String amount, String user) {
+        if (user !=null){
+            Integer userId=Integer.valueOf(user);
+            Integer idInt=Integer.valueOf(id);
+            Integer amountInt=Integer.valueOf(amount);
+//            Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
+//            List<Basket> baskets=basketRepository.findByMemberId(userId);
+
+            Options options=optionRepository.findById(idInt).orElseThrow(
+                    ()-> new IllegalArgumentException("요청하신 옵션은 없습니다."));
+
+
+        }
+
+
+    }
+
+
 }
