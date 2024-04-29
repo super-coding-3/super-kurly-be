@@ -38,6 +38,10 @@ public class ItemModel {
     private List<OptionModel> options;
     private byte[] img;
     private byte[] descriptionImg;
+    private String origin;
+    private String shippingMethod;
+    private String sellerName;
+    private byte[] productInformationImg;
 
     private static DateTimeFormatter formatter=
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");

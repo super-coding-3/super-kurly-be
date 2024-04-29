@@ -1,6 +1,10 @@
 package com.kurly.api.basket.controller;
 
+import com.kurly.api.basket.service.impl.BasketServiceImpl;
 import com.kurly.api.jpa.entity.Member;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -15,11 +19,17 @@ import org.springframework.web.bind.annotation.*;
  * 2024-04-23        hagjoon       최초 생성
  */
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/basket")
 public class BasketController {
 
-//    @PostMapping("/{id}/{itemId}")
-//    public void itemBasket(@PathVariable("id") Integer id, @PathVariable("itemId") Integer itemId, int amount){
-//        Member member =mem
+    private final BasketServiceImpl basketService;
+//    @PostMapping("/{id}/{amount}")
+//    public void itemBasket(@PathVariable("id") String id,
+//                           @PathVariable("amount") String amount,
+//                           @AuthenticationPrincipal Member member){
+//        String username=member.getUsername();
+//
+//        basketService.createCart(id,amount,username);
 //    }
 }
