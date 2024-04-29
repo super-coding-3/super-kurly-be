@@ -34,7 +34,7 @@ public class Item {
 
     @Column(name = "img")
     private byte[] img;
-
+  
     @Column(name = "description_img")
     private byte[] descriptionImg;
 
@@ -52,4 +52,28 @@ public class Item {
 
     @Column(name = "product_information_img")
     private byte[] productInformationImg;
+
+    public static Item toDto(ItemModel itemModel){
+        return Item.builder()
+                .productId(itemModel.getProductId())
+                .name(itemModel.getName())
+                .amount(itemModel.getAmount())
+                .color(itemModel.getColor())
+                .price(itemModel.getPrice())
+                .description(itemModel.getDescription())
+                .createAt(itemModel.getCreateAt())
+                .img(itemModel.getImg())
+                .build();
+    }
+
+    public static Item toDto2(ItemRp itemRQ){
+        return  Item.builder()
+                .name(itemRQ.getName())
+                .amount(itemRQ.getAmount())
+                .color(itemRQ.getColor())
+                .price(itemRQ.getPrice())
+                .description(itemRQ.getDescription())
+                .createAt(itemRQ.getCreateAt())
+                .build();
+    }
 }

@@ -1,5 +1,7 @@
 package com.kurly.api.item.service.impl;
 
+import com.kurly.api.common.support.exception.CustomException;
+import com.kurly.api.common.support.exception.ErrorCode;
 import com.kurly.api.item.model.ItemAllPage;
 import com.kurly.api.item.model.ItemModel;
 import com.kurly.api.item.model.OptionModel;
@@ -33,6 +35,59 @@ import java.util.*;
 @Slf4j
 public class ItemServiceImpl implements ItemService {
     private final ItemRepository itemRepository;
+  
+    private String uploadPath;
+    public void saveItem(ItemRp itemRp) {
+        ItemRp existingItem = sameItemName(itemRp.getName());
+        if(existingItem != null) {
+            throw new IllegalArgumentException("물품이름 " + itemRp.getName() + "은 이미 등록 되어있습니다");
+        }
+        Item item = Item.toDto2(itemRp);
+        itemRepository.save(item);
+    }
+    @Override
+    public void save(Item item) {
+        boolean exists = itemRepository.existsByName(item.getName());
+
+        if (exists) {
+            throw new CustomException(ErrorCode.DUPLICATED_ITEM_NAME);
+            // throw new IllegalArgumentException("물품이름 " + item.getName() + "은 이미 등록 되어있습니다");
+        }
+
+        itemRepository.save(item);
+    }
+    //조회
+    @Override
+    public ItemModel getItemById(Integer itemId) {
+        Item item = itemRepository.findById(itemId)
+                .orElseThrow(() -> new CustomException(ErrorCode.ITEM_NOT_FOUND));
+        return ItemModel.toEntity(item);
+
+        }
+
+    public ItemModel ItemUpdate(Integer id, Integer newAmount) {
+        Optional<Item> optionalItem = itemRepository.findById(id);
+        if (optionalItem.isPresent()) {
+            Item item = optionalItem.get();
+            item.setAmount(newAmount);
+            itemRepository.save(item);
+            return ItemModel.toEntity(item);
+        } else {
+            throw new CustomException(ErrorCode.ITEM_NOT_FOUND);
+        }
+    }
+
+    public Page<ItemModel> findAllWithPageable(Pageable pageable) {
+        Page<Item> items = itemRepository.findAll(pageable);
+        List<ItemModel> itemModels = new ArrayList<>();
+
+        for (Item item : items) {
+            if (item.getAmount() != 0) {
+                ItemModel itemModel = new ItemModel();
+                itemModel.setProductId(item.getProductId());
+                itemModel.setName(item.getName());
+                itemModel.setAmount(item.getAmount());
+                itemModel.setColor(item.getColor());
 
     @Override
     public Page<ItemAllPage> findAllWithPageable(Pageable pageable) {
@@ -112,6 +167,11 @@ public class ItemServiceImpl implements ItemService {
                 optionModels.add(optionModel);
             }
         }
+        return new PageImpl<>(itemModels, pageable, items.getTotalElements());
+    }
+
+    private ItemRp sameItemName(String name) {
+        return itemRepository.findByName(name);
 
         itemModel.setOptions(optionModels);
 
@@ -119,3 +179,4 @@ public class ItemServiceImpl implements ItemService {
     }
 
 }
+

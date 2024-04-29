@@ -19,6 +19,16 @@ import org.springframework.data.jpa.repository.Query;
  */
 public interface ItemService {
 
+    void save(Item item);
+    void saveItem(ItemRp itemRp);
+
+    ItemModel getItemById(Integer itemId);
+
+    ItemModel ItemUpdate(Integer id, Integer newAmount);
+
+    Page<ItemModel> findAllWithPageable(Pageable pageable);
+
+
     Page<ItemAllPage> findAllWithPageable(Pageable pageable);
 
     ItemModel findItemDetail(String id);
