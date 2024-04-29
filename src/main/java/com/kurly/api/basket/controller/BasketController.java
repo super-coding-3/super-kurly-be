@@ -1,7 +1,8 @@
 package com.kurly.api.basket.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.kurly.api.basket.model.BasketProductModel;
+import com.kurly.api.basket.service.impl.BasketServiceImpl;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * packageName    : com.kurly.api.basket.controller
@@ -17,4 +18,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/basket")
 public class BasketController {
+
+    private final BasketServiceImpl basketServiceImpl;
+
+    public BasketController(BasketServiceImpl basketServiceImpl) {
+        this.basketServiceImpl = basketServiceImpl;
+    }
+
+    @PutMapping("/basket/{id}")
+    public BasketProductModel updateBasket(@PathVariable Integer id, @RequestBody BasketProductModel basketProductModel) {
+        BasketProductModel updatedBasket = basketServiceImpl.updateBasket(basketProductModel.getBasketId(), basketProductModel);
+        return updatedBasket;
+    }
 }
