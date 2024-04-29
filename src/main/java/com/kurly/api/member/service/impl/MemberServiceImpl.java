@@ -49,9 +49,9 @@ public class MemberServiceImpl implements MemberService {
 
         String email = memberSignUp.getEmail();
         String password = memberSignUp.getPassword();
-        String name = memberSignUp.getName();
+        String name = memberSignUp.getUserName();
         String phone = memberSignUp.getPhone();
-        String addr = memberSignUp.getAddr();
+        String addr = memberSignUp.getAddress();
         String gender = memberSignUp.getGender();
         RoleType role = memberSignUp.getRole();
 
