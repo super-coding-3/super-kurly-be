@@ -4,6 +4,8 @@ import com.kurly.api.jpa.entity.BasketProduct;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+@Repository
+public interface BasketProductRepository extends JpaRepository<BasketProduct, Integer> {
 /**
  * packageName    : com.kurly.api.jpa.repository
  * fileName       : BasketProductRepository
