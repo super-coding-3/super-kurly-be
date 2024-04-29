@@ -33,8 +33,6 @@ import java.util.*;
 @Slf4j
 public class ItemServiceImpl implements ItemService {
     private final ItemRepository itemRepository;
-//    private final OptionRepository optionRepository;
-
 
     @Override
     public Page<ItemAllPage> findAllWithPageable(Pageable pageable) {
@@ -43,7 +41,9 @@ public class ItemServiceImpl implements ItemService {
         Map<String, byte[]> firstImageMap = new HashMap<>();
         Map<String, String> descriptionMap = new HashMap<>();
 
+
         for (Item item : items) {
+
             if (item.getAmount() != 0) {
                 String itemName = item.getName();
                 int currentAmount = totalAmounts.getOrDefault(itemName, 0);
@@ -83,6 +83,7 @@ public class ItemServiceImpl implements ItemService {
 
     }
 
+
     @Override
     public ItemModel findItemDetail(String id) {
 
@@ -90,13 +91,17 @@ public class ItemServiceImpl implements ItemService {
         Item item =itemRepository.findById(productId).orElseThrow(
                 ()-> new IllegalArgumentException("해당 제품은 없습니다."));
 
-
         ItemModel itemModel=new ItemModel();
         itemModel.setName(item.getName());
         itemModel.setDescription(item.getDescription());
         itemModel.setPrice(item.getPrice());
         itemModel.setImg(item.getImg());
         itemModel.setDescriptionImg(item.getDescriptionImg());
+        itemModel.setAmount(item.getAmount());
+        itemModel.setOrigin(item.getOrigin());
+        itemModel.setShippingMethod(item.getShippingMethod());
+        itemModel.setSellerName(item.getSellerName());
+        itemModel.setProductInformationImg(item.getProductInformationImg());
 
         List<OptionModel> optionModels=new ArrayList<>();
         for (Options option :item.getOptions()){

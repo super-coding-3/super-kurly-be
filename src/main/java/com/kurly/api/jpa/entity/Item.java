@@ -40,4 +40,16 @@ public class Item {
 
     @OneToMany(mappedBy = "product")
     private List<Options> options;
+
+    @Column(name = "origin")
+    private String origin;
+
+    @Column(name = "shipping_method")
+    private String shippingMethod;
+
+    @Column(name = "seller_name")
+    private String sellerName;
+
+    @Column(name = "product_information_img")
+    private byte[] productInformationImg;
 }

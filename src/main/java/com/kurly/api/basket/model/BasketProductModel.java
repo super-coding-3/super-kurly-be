@@ -14,6 +14,9 @@ import java.util.List;
 @AllArgsConstructor
 public class BasketProductModel {
     private Integer basketId;
+    private String description;
+    private byte[] img;
+    private String name;
     private List<Item> items;
     private Integer totalPrice;
     private Integer totalAmount;
