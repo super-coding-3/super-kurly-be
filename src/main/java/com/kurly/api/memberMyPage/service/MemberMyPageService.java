@@ -37,7 +37,7 @@ public class MemberMyPageService {
     public List<MyProduct> findBasketProduct(Long id) {
         Member member = memberRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("해당 ID를 찾을 수 없습니다."));
-        Integer intId = id.intValue();
+        Long intId = (long) id.intValue();
         if (member != null) {
             List<BasketProduct> basketProducts = basketProductRepository.findMyInfoAndMyProduct(intId);
             return basketProducts.stream().map(MyProduct::new).collect(Collectors.toList());
