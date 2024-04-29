@@ -2,6 +2,8 @@ package com.kurly.api.item.service;
 
 import com.kurly.api.item.model.ItemAllPage;
 import com.kurly.api.item.model.ItemModel;
+import com.kurly.api.item.model.ItemRp;
+import com.kurly.api.jpa.entity.Item;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -26,10 +28,7 @@ public interface ItemService {
 
     ItemModel ItemUpdate(Integer id, Integer newAmount);
 
-    Page<ItemModel> findAllWithPageable(Pageable pageable);
-
-
     Page<ItemAllPage> findAllWithPageable(Pageable pageable);
+//    ItemModel findItemDetail(String id);
 
-    ItemModel findItemDetail(String id);
 }

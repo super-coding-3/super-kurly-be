@@ -1,5 +1,7 @@
 package com.kurly.api.jpa.entity;
 
+import com.kurly.api.item.model.ItemModel;
+import com.kurly.api.item.model.ItemRp;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -58,7 +60,6 @@ public class Item {
                 .productId(itemModel.getProductId())
                 .name(itemModel.getName())
                 .amount(itemModel.getAmount())
-                .color(itemModel.getColor())
                 .price(itemModel.getPrice())
                 .description(itemModel.getDescription())
                 .createAt(itemModel.getCreateAt())
@@ -70,7 +71,6 @@ public class Item {
         return  Item.builder()
                 .name(itemRQ.getName())
                 .amount(itemRQ.getAmount())
-                .color(itemRQ.getColor())
                 .price(itemRQ.getPrice())
                 .description(itemRQ.getDescription())
                 .createAt(itemRQ.getCreateAt())

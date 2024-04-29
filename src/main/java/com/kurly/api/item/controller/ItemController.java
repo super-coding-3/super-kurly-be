@@ -1,10 +1,8 @@
 package com.kurly.api.item.controller;
 
 import com.kurly.api.common.support.exception.CustomException;
-import com.kurly.api.common.support.exception.ErrorCode;
 import com.kurly.api.item.model.ItemModel;
 import com.kurly.api.item.model.ItemPostRequestDto;
-import com.kurly.api.item.model.ItemRp;
 import com.kurly.api.jpa.entity.Item;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -13,17 +11,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import java.io.IOException;
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Collections;
 import com.kurly.api.item.model.ItemAllPage;
 import com.kurly.api.item.service.ItemService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
@@ -95,9 +87,9 @@ public class ItemController {
         return ResponseEntity.ok().body(page);
     }
 
-
-    @GetMapping("/page/{id}")
-    public ItemModel findDetailItem(@PathVariable String id){
-        return itemService.findItemDetail(id);
-    }
+//
+//    @GetMapping("/page/{id}")
+//    public ItemModel findDetailItem(@PathVariable String id){
+//        return itemService.findItemDetail(id);
+//    }
 }

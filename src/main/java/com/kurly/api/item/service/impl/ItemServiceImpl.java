@@ -4,6 +4,7 @@ import com.kurly.api.common.support.exception.CustomException;
 import com.kurly.api.common.support.exception.ErrorCode;
 import com.kurly.api.item.model.ItemAllPage;
 import com.kurly.api.item.model.ItemModel;
+import com.kurly.api.item.model.ItemRp;
 import com.kurly.api.item.model.OptionModel;
 import com.kurly.api.item.service.ItemService;
 import com.kurly.api.jpa.entity.Item;
@@ -35,16 +36,18 @@ import java.util.*;
 @Slf4j
 public class ItemServiceImpl implements ItemService {
     private final ItemRepository itemRepository;
-  
+
     private String uploadPath;
+
     public void saveItem(ItemRp itemRp) {
         ItemRp existingItem = sameItemName(itemRp.getName());
-        if(existingItem != null) {
+        if (existingItem != null) {
             throw new IllegalArgumentException("물품이름 " + itemRp.getName() + "은 이미 등록 되어있습니다");
         }
         Item item = Item.toDto2(itemRp);
         itemRepository.save(item);
     }
+
     @Override
     public void save(Item item) {
         boolean exists = itemRepository.existsByName(item.getName());
@@ -56,6 +59,7 @@ public class ItemServiceImpl implements ItemService {
 
         itemRepository.save(item);
     }
+
     //조회
     @Override
     public ItemModel getItemById(Integer itemId) {
@@ -63,7 +67,7 @@ public class ItemServiceImpl implements ItemService {
                 .orElseThrow(() -> new CustomException(ErrorCode.ITEM_NOT_FOUND));
         return ItemModel.toEntity(item);
 
-        }
+    }
 
     public ItemModel ItemUpdate(Integer id, Integer newAmount) {
         Optional<Item> optionalItem = itemRepository.findById(id);
@@ -76,107 +80,86 @@ public class ItemServiceImpl implements ItemService {
             throw new CustomException(ErrorCode.ITEM_NOT_FOUND);
         }
     }
-
-    public Page<ItemModel> findAllWithPageable(Pageable pageable) {
-        Page<Item> items = itemRepository.findAll(pageable);
-        List<ItemModel> itemModels = new ArrayList<>();
-
-        for (Item item : items) {
-            if (item.getAmount() != 0) {
-                ItemModel itemModel = new ItemModel();
-                itemModel.setProductId(item.getProductId());
-                itemModel.setName(item.getName());
-                itemModel.setAmount(item.getAmount());
-                itemModel.setColor(item.getColor());
-
-    @Override
-    public Page<ItemAllPage> findAllWithPageable(Pageable pageable) {
-        Page<Item> items = itemRepository.findAll(pageable);
-        Map<String, Integer> totalAmounts = new HashMap<>();
-        Map<String, byte[]> firstImageMap = new HashMap<>();
-        Map<String, String> descriptionMap = new HashMap<>();
+        @Override
+        public Page<ItemAllPage> findAllWithPageable (Pageable pageable){
+            Page<Item> items = itemRepository.findAll(pageable);
+            Map<String, Integer> totalAmounts = new HashMap<>();
+            Map<String, byte[]> firstImageMap = new HashMap<>();
+            Map<String, String> descriptionMap = new HashMap<>();
 
 
-        for (Item item : items) {
+            for (Item item : items) {
 
-            if (item.getAmount() != 0) {
-                String itemName = item.getName();
-                int currentAmount = totalAmounts.getOrDefault(itemName, 0);
-                totalAmounts.put(itemName, currentAmount + item.getAmount());
+                if (item.getAmount() != 0) {
+                    String itemName = item.getName();
+                    int currentAmount = totalAmounts.getOrDefault(itemName, 0);
+                    totalAmounts.put(itemName, currentAmount + item.getAmount());
 
-                // 이미지 맵에 해당 제품의 이미지가 없는 경우에만 추가
-                firstImageMap.putIfAbsent(itemName, item.getImg());
+                    // 이미지 맵에 해당 제품의 이미지가 없는 경우에만 추가
+                    firstImageMap.putIfAbsent(itemName, item.getImg());
 
-                // 설명 맵에 해당 제품의 설명이 없는 경우에만 추가
-                descriptionMap.putIfAbsent(itemName, item.getDescription());
-            }
-        }
-
-        List<ItemAllPage> itemModels = new ArrayList<>();
-        for (Map.Entry<String, Integer> entry : totalAmounts.entrySet()) {
-            String itemName = entry.getKey();
-            int totalAmount = entry.getValue();
-            byte[] image = firstImageMap.get(itemName);
-            String description = descriptionMap.get(itemName);
-
-            ItemAllPage itemModel = new ItemAllPage();
-            itemModel.setName(itemName);
-            itemModel.setAmount(totalAmount);
-            itemModel.setImg(image);
-            itemModel.setDescription(description);
-
-            // 가격은 원래 가격을 그대로 사용
-            Item item = items.stream().filter(i -> i.getName().equals(itemName)).findFirst().orElse(null);
-            if (item != null) {
-                itemModel.setPrice(item.getPrice());
+                    // 설명 맵에 해당 제품의 설명이 없는 경우에만 추가
+                    descriptionMap.putIfAbsent(itemName, item.getDescription());
+                }
             }
 
-            itemModels.add(itemModel);
-        }
+            List<ItemAllPage> itemModels = new ArrayList<>();
+            for (Map.Entry<String, Integer> entry : totalAmounts.entrySet()) {
+                String itemName = entry.getKey();
+                int totalAmount = entry.getValue();
+                byte[] image = firstImageMap.get(itemName);
+                String description = descriptionMap.get(itemName);
 
-        return new PageImpl<>(itemModels, pageable, itemModels.size());
+                ItemAllPage itemModel = new ItemAllPage();
+                itemModel.setName(itemName);
+                itemModel.setAmount(totalAmount);
+                itemModel.setImg(image);
+                itemModel.setDescription(description);
 
-    }
+                // 가격은 원래 가격을 그대로 사용
+                Item item = items.stream().filter(i -> i.getName().equals(itemName)).findFirst().orElse(null);
+                if (item != null) {
+                    itemModel.setPrice(item.getPrice());
+                }
 
-
-    @Override
-    public ItemModel findItemDetail(String id) {
-
-        Integer productId=Integer.parseInt(id);
-        Item item =itemRepository.findById(productId).orElseThrow(
-                ()-> new IllegalArgumentException("해당 제품은 없습니다."));
-
-        ItemModel itemModel=new ItemModel();
-        itemModel.setName(item.getName());
-        itemModel.setDescription(item.getDescription());
-        itemModel.setPrice(item.getPrice());
-        itemModel.setImg(item.getImg());
-        itemModel.setDescriptionImg(item.getDescriptionImg());
-        itemModel.setAmount(item.getAmount());
-        itemModel.setOrigin(item.getOrigin());
-        itemModel.setShippingMethod(item.getShippingMethod());
-        itemModel.setSellerName(item.getSellerName());
-        itemModel.setProductInformationImg(item.getProductInformationImg());
-
-        List<OptionModel> optionModels=new ArrayList<>();
-        for (Options option :item.getOptions()){
-            if (productId.equals(option.getProduct().getProductId())) {
-                OptionModel optionModel = new OptionModel();
-                optionModel.setPrice(option.getPrice());
-                optionModel.setTitle(option.getTitle());
-                optionModels.add(optionModel);
+                itemModels.add(itemModel);
             }
+
+            return new PageImpl<>(itemModels, pageable, itemModels.size());
+
         }
-        return new PageImpl<>(itemModels, pageable, items.getTotalElements());
-    }
+//        @Override
+//        public ItemModel findItemDetail (String id){
+//
+//            Integer productId = Integer.parseInt(id);
+//            Item item = itemRepository.findById(productId).orElseThrow(
+//                    () -> new IllegalArgumentException("해당 제품은 없습니다."));
+//
+//            ItemModel itemModel = new ItemModel();
+//            itemModel.setName(item.getName());
+//            itemModel.setDescription(item.getDescription());
+//            itemModel.setPrice(item.getPrice());
+//            itemModel.setImg(item.getImg());
+//            itemModel.setDescriptionImg(item.getDescriptionImg());
+//            itemModel.setAmount(item.getAmount());
+//            itemModel.setOrigin(item.getOrigin());
+//            itemModel.setShippingMethod(item.getShippingMethod());
+//            itemModel.setSellerName(item.getSellerName());
+//            itemModel.setProductInformationImg(item.getProductInformationImg());
+//
+//            List<OptionModel> optionModels = new ArrayList<>();
+//            for (Options option : item.getOptions()) {
+//                if (productId.equals(option.getProduct().getProductId())) {
+//                    OptionModel optionModel = new OptionModel();
+//                    optionModel.setPrice(option.getPrice());
+//                    optionModel.setTitle(option.getTitle());
+//                    optionModels.add(optionModel);
+//                }
+//            }
+//            return new PageImpl<>(itemModels, pageable, items.getTotalElements());
+//        }
 
     private ItemRp sameItemName(String name) {
         return itemRepository.findByName(name);
-
-        itemModel.setOptions(optionModels);
-
-        return itemModel;
     }
-
-}
-
+    }

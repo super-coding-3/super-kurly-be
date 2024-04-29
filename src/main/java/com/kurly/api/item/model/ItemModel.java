@@ -31,6 +31,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Builder
 public class ItemModel {
     @Schema(description = "물품아이디" ,example = "1")
     private Integer productId;
@@ -46,9 +47,8 @@ public class ItemModel {
     private String description;
     @Schema(description = "물품등록시간")
     private LocalDateTime createAt;
-    @Schema(description = "제품이미지")
-    private String createAt;
     private List<OptionModel> options;
+    @Schema(description = "제품이미지")
     private byte[] img;
     private byte[] descriptionImg;
     private String origin;
@@ -63,7 +63,6 @@ public class ItemModel {
         this.productId = item.getProductId();
         this.name = item.getName();
         this.amount = item.getAmount();
-        this.color = item.getColor();
         this.price = item.getPrice();
         this.description = item.getDescription();
         this.createAt = getCreateAt();
@@ -76,11 +75,11 @@ public class ItemModel {
                 .productId(item.getProductId())
                 .name(item.getName())
                 .amount(item.getAmount())
-                .color(item.getColor())
                 .price(item.getPrice())
                 .description(item.getDescription())
                 .createAt(item.getCreateAt())
                 .img(item.getImg())
                 .build();
     }
+
 }
