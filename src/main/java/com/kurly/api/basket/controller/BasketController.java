@@ -2,7 +2,6 @@ package com.kurly.api.basket.controller;
 
 import com.kurly.api.basket.model.BasketProductModel;
 import com.kurly.api.basket.service.BasketService;
-import com.kurly.api.basket.service.impl.BasketServiceImpl;
 import com.kurly.api.jpa.entity.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -34,7 +33,7 @@ public class BasketController {
     }
 
    @PostMapping("/order")
-   public String orderProduct(@RequestBody BasketProductModel basketProductModel) {}
+   public String orderProduct(@RequestBody BasketProductModel basketProductModel) {return null;}
 
    @PostMapping("/{id}/{amount}")
    public void itemBasket(@PathVariable("id") String id,

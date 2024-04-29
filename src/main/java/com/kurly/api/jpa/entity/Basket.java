@@ -25,7 +25,7 @@ public class Basket {
     private Member member; //구매자
 
     @OneToMany(mappedBy = "basket")
-    private List<BasketProduct> basketItems = new ArrayList<>();
+    private List<BasketProduct> basketItems;
 
     @Column(name = "total_price")
     private Integer totalPrice;
