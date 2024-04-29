@@ -1,7 +1,6 @@
 package com.kurly.api.basket.service;
 
 import com.kurly.api.basket.model.BasketProductModel;
-import org.springframework.security.core.userdetails.User;
 
 /**
  * packageName    : com.kurly.api.basket.service
@@ -16,6 +15,6 @@ import org.springframework.security.core.userdetails.User;
  */
 public interface BasketService {
 
-    BasketProductModel updateBasket(Integer basketId, BasketProductModel basketProductModel);
+    BasketProductModel updateBasket(Long basketId, BasketProductModel basketProductModel);
     void createCart(String id,String amount, String user);
 }

@@ -34,7 +34,7 @@ import java.util.List;
 @Builder
 public class ItemModel {
     @Schema(description = "물품아이디" ,example = "1")
-    private Integer productId;
+    private Long productId;
     @Schema(description = "이름" ,example = "Tv")
     private String name;
     @Schema(description = "수량" ,example = "10")

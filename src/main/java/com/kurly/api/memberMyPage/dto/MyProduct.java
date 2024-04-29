@@ -12,7 +12,7 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 public class MyProduct {
-    private Integer productId;
+    private Long productId;
     private String name;
     private Integer amount;
     private Integer price;

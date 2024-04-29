@@ -17,7 +17,7 @@ import java.util.List;
 public class Purchase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer purchaseId;
+    private Long purchaseId;
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id")

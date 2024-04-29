@@ -16,7 +16,7 @@ import java.util.List;
 public class BasketProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer basketId;
+    private Long basketId;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id")

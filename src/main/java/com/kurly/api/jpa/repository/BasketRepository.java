@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
  * -----------------------------------------------------------
  * 2024-04-26        hagjoon       최초 생성
  */
-//@Repository
-//public interface BasketRepository extends JpaRepository<Basket,Integer> {
-//
-//}
+@Repository
+public interface BasketRepository extends JpaRepository<Basket,Long> {
+
+}

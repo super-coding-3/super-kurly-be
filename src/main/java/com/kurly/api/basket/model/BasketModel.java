@@ -21,8 +21,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BasketModel {
-    private Integer basketId;
-    private Integer memberId;
+    private Long basketId;
+    private Long memberId;
     private Integer totalPrice;
     private Integer totalAmount;
 

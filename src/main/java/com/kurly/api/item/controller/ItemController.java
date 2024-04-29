@@ -59,7 +59,7 @@ public class ItemController {
 
     @GetMapping("/{id}")
     @Operation(summary = "물품조회")
-    public ResponseEntity<String> findByItem(@PathVariable Integer id ) {
+    public ResponseEntity<String> findByItem(@PathVariable Long id ) {
         try {
             log.info("GET/item 조회요청이 들어왔습니다.productId:" + id);
             ItemModel itemModel = itemService.getItemById(id);
@@ -73,7 +73,7 @@ public class ItemController {
 
     @PostMapping("/update{id}")
     @Operation(summary = "물품수량변경")
-    public ResponseEntity<ItemModel> ItemAmountUpdate(@PathVariable Integer id, @RequestBody Integer newAmount) {
+    public ResponseEntity<ItemModel> ItemAmountUpdate(@PathVariable Long id, @RequestBody Integer newAmount) {
         log.info("POST/item 수정요청이 들어왔습니다. productId :" + id);
         ItemModel updatedItem = itemService.ItemUpdate(id,newAmount);
         ResponseEntity<ItemModel> item = ResponseEntity.ok(updatedItem);

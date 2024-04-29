@@ -37,7 +37,7 @@ public class BasketServiceImpl implements BasketService {
     private final MemberRepository memberRepository;
 
 
-    public BasketProductModel updateBasket(Integer basketId, BasketProductModel basketProductModel) {
+    public BasketProductModel updateBasket(Long basketId, BasketProductModel basketProductModel) {
         BasketProduct basketProduct = basketProductRepository.findById(basketId)
                                     .orElseThrow(() -> new NotFoundException(("해당 ID : " + basketId + "의 물품을 찾을 수 없습니다.")));
 
@@ -51,7 +51,7 @@ public class BasketServiceImpl implements BasketService {
     public void createCart(String id,String amount, String user) {
         if (user !=null){
             Integer userId=Integer.valueOf(user);
-            Integer idInt=Integer.valueOf(id);
+            Long idInt=Long.valueOf(id);
             Integer amountInt=Integer.valueOf(amount);
 //            Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
 //            List<Basket> baskets=basketRepository.findByMemberId(userId);

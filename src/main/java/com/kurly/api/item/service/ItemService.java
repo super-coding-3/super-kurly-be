@@ -24,9 +24,9 @@ public interface ItemService {
     void save(Item item);
     void saveItem(ItemRp itemRp);
 
-    ItemModel getItemById(Integer itemId);
+    ItemModel getItemById(Long itemId);
 
-    ItemModel ItemUpdate(Integer id, Integer newAmount);
+    ItemModel ItemUpdate(Long id, Integer newAmount);
 
     Page<ItemAllPage> findAllWithPageable(Pageable pageable);
 //    ItemModel findItemDetail(String id);

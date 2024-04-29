@@ -16,5 +16,5 @@ import org.springframework.stereotype.Repository;
  * 2024-04-26        hagjoon       최초 생성
  */
 @Repository
-public interface PurchaseRepository extends JpaRepository<Purchase,Integer> {
+public interface PurchaseRepository extends JpaRepository<Purchase,Long> {
 }
