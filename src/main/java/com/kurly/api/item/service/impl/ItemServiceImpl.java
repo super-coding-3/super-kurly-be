@@ -62,14 +62,14 @@ public class ItemServiceImpl implements ItemService {
 
     //조회
     @Override
-    public ItemModel getItemById(Integer itemId) {
+    public ItemModel getItemById(Long itemId) {
         Item item = itemRepository.findById(itemId)
                 .orElseThrow(() -> new CustomException(ErrorCode.ITEM_NOT_FOUND));
         return ItemModel.toEntity(item);
 
     }
 
-    public ItemModel ItemUpdate(Integer id, Integer newAmount) {
+    public ItemModel ItemUpdate(Long id, Integer newAmount) {
         Optional<Item> optionalItem = itemRepository.findById(id);
         if (optionalItem.isPresent()) {
             Item item = optionalItem.get();

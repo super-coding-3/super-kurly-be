@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BasketProductModel {
-    private Integer basketId;
+    private Long basketId;
     private String description;
     private byte[] img;
     private String name;

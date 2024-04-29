@@ -17,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PurchaseModel {
-    private Integer purchaseId;
+    private Long purchaseId;
     private List<Item> items;
     private Member member;
     private String purchaseDate;

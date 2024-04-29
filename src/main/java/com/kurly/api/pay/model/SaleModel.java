@@ -17,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SaleModel {
-    private Integer saleId;
+    private Long saleId;
     private List<Item> items;
     private Member member;
     private String  saleDate;

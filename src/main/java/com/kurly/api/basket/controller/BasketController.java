@@ -27,7 +27,7 @@ public class BasketController {
 
 
     @PutMapping("/product/{basketId}")
-    public BasketProductModel updateBasket(@PathVariable Integer basketId, @RequestBody BasketProductModel basketProductModel) {
+    public BasketProductModel updateBasket(@PathVariable Long basketId, @RequestBody BasketProductModel basketProductModel) {
         BasketProductModel updatedBasket = basketService.updateBasket(basketProductModel.getBasketId(), basketProductModel);
         return updatedBasket;
     }

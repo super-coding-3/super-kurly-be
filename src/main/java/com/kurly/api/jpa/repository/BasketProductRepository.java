@@ -18,7 +18,7 @@ import java.util.List;
  * 2024-04-26        hagjoon       최초 생성
  */
 @Repository
-public interface BasketProductRepository extends JpaRepository<BasketProduct,Integer> {
+public interface BasketProductRepository extends JpaRepository<BasketProduct,Long> {
 
     @Query("SELECT MyBasketAndMyProduct(i.productId, i.name, i.price, bp.totalAmount) " +
             "FROM BasketProduct bp " +

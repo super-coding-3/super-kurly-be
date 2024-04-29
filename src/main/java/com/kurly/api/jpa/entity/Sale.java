@@ -16,7 +16,7 @@ import java.util.List;
 public class Sale {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer saleId;
+    private Long saleId;
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
