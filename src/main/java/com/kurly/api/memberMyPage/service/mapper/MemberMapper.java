@@ -5,6 +5,7 @@ import com.kurly.api.memberMyPage.dto.MemberInfo;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
+
 @Mapper
 public interface MemberMapper {
 
