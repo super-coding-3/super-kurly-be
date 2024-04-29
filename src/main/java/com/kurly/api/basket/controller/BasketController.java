@@ -25,9 +25,14 @@ public class BasketController {
         this.basketServiceImpl = basketServiceImpl;
     }
 
-    @PutMapping("/basket/{id}")
-    public BasketProductModel updateBasket(@PathVariable Integer id, @RequestBody BasketProductModel basketProductModel) {
+    @PutMapping("/product/{basketId}")
+    public BasketProductModel updateBasket(@PathVariable Integer basketId, @RequestBody BasketProductModel basketProductModel) {
         BasketProductModel updatedBasket = basketServiceImpl.updateBasket(basketProductModel.getBasketId(), basketProductModel);
         return updatedBasket;
     }
+
+//    @PostMapping("/order")
+//    public String orderProduct(@RequestBody BasketProductModel basketProductModel) {
+//
+//    }
 }
