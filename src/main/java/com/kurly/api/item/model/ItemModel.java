@@ -3,6 +3,7 @@ package com.kurly.api.item.model;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.kurly.api.jpa.entity.Item;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,14 +29,23 @@ import java.time.format.DateTimeFormatter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class ItemModel {
+    @Schema(description = "물품아이디" ,example = "1")
     private Integer productId;
+    @Schema(description = "이름" ,example = "Tv")
     private String name;
+    @Schema(description = "수량" ,example = "10")
     private Integer amount;
+    @Schema(description = "색상", example = "red")
     private String color;
+    @Schema(description = "가격" , example = "15000000")
     private Integer price;
+    @Schema(description = "제품설명" ,example = "화질좋음")
     private String description;
+    @Schema(description = "물품등록시간")
     private LocalDateTime createAt;
+    @Schema(description = "제품이미지")
     private byte[] img;
 
     private static DateTimeFormatter formatter =
@@ -52,6 +62,7 @@ public class ItemModel {
         //this.createAt=item.getCreateAt().format(formatter);
         this.img = item.getImg();
     }
+
     public static ItemModel toEntity(Item item){
         return ItemModel.builder()
                 .productId(item.getProductId())

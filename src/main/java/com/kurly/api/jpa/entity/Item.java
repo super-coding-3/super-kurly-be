@@ -51,6 +51,7 @@ public class Item {
                 .img(itemModel.getImg())
                 .build();
     }
+
     public static Item toDto2(ItemRp itemRQ){
         return  Item.builder()
                 .name(itemRQ.getName())
@@ -59,19 +60,6 @@ public class Item {
                 .price(itemRQ.getPrice())
                 .description(itemRQ.getDescription())
                 .createAt(itemRQ.getCreateAt())
-                .build();
-    }
-
-    public static Item toUpdateEntity(ItemModel itemModel) {
-        return Item.builder()
-                .productId(itemModel.getProductId())
-                .name(itemModel.getName())
-                .amount(itemModel.getAmount())
-                .color(itemModel.getColor())
-                .price(itemModel.getPrice())
-                .description(itemModel.getDescription())
-                .createAt(itemModel.getCreateAt())
-                .img(itemModel.getImg())
                 .build();
     }
 }

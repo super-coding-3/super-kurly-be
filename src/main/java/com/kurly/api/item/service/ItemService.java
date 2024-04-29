@@ -20,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 public interface ItemService {
     //ItemRp findAllItem(ItemRp rp);
 
+    void save(Item item);
     void saveItem(ItemRp itemRp);
 
     ItemModel getItemById(Integer itemId);
@@ -27,4 +28,6 @@ public interface ItemService {
     ItemModel ItemUpdate(Integer id, Integer newAmount);
 
     Page<ItemModel> findAllWithPageable(Pageable pageable);
+
+
 }
