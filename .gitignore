@@ -37,4 +37,3 @@ out/
 .vscode/
 
 ### S3 ###
-aws.yml
