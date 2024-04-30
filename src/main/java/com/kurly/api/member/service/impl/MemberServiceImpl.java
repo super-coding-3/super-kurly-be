@@ -49,9 +49,9 @@ public class MemberServiceImpl implements MemberService {
 
         String email = memberSignUp.getEmail();
         String password = memberSignUp.getPassword();
-        String name = memberSignUp.getName();
+       //String name = memberSignUp.getName();
         String phone = memberSignUp.getPhone();
-        String addr = memberSignUp.getAddr();
+      //  String addr = memberSignUp.getAddr();
         String gender = memberSignUp.getGender();
         RoleType role = memberSignUp.getRole();
 
@@ -61,9 +61,9 @@ public class MemberServiceImpl implements MemberService {
                 memberRepository.save(Member.builder()
                                 .email(email)
                                 .password(encodePassword)
-                                .name(name)
+                              //  .name(name)
                                 .phone(phone)
-                                .addr(addr)
+                              //  .addr(addr)
                                 .gender(gender)
                                 .role(role)
                         .build()));

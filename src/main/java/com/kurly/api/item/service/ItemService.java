@@ -2,6 +2,7 @@ package com.kurly.api.item.service;
 
 import com.kurly.api.item.model.ItemAllPage;
 import com.kurly.api.item.model.ItemModel;
+import com.kurly.api.item.model.ItemPostRequestDto;
 import com.kurly.api.item.model.ItemRp;
 import com.kurly.api.jpa.entity.Item;
 import org.springframework.data.domain.Page;
@@ -22,7 +23,7 @@ import org.springframework.data.jpa.repository.Query;
 public interface ItemService {
 
     void save(Item item);
-    void saveItem(ItemRp itemRp);
+    void saveItem(ItemPostRequestDto itemRq);
 
     ItemModel getItemById(Long itemId);
 

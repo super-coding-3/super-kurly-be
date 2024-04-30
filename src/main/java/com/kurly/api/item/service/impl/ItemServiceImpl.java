@@ -2,10 +2,7 @@ package com.kurly.api.item.service.impl;
 
 import com.kurly.api.common.support.exception.CustomException;
 import com.kurly.api.common.support.exception.ErrorCode;
-import com.kurly.api.item.model.ItemAllPage;
-import com.kurly.api.item.model.ItemModel;
-import com.kurly.api.item.model.ItemRp;
-import com.kurly.api.item.model.OptionModel;
+import com.kurly.api.item.model.*;
 import com.kurly.api.item.service.ItemService;
 import com.kurly.api.jpa.entity.Item;
 import com.kurly.api.jpa.entity.Options;
@@ -39,12 +36,12 @@ public class ItemServiceImpl implements ItemService {
 
     private String uploadPath;
 
-    public void saveItem(ItemRp itemRp) {
-        ItemRp existingItem = sameItemName(itemRp.getName());
+    public void saveItem(ItemPostRequestDto itemRq) {
+        ItemRp existingItem = sameItemName(itemRq.getName());
         if (existingItem != null) {
-            throw new IllegalArgumentException("물품이름 " + itemRp.getName() + "은 이미 등록 되어있습니다");
+            throw new IllegalArgumentException("물품이름 " + itemRq.getName() + "은 이미 등록 되어있습니다");
         }
-        Item item = Item.toDto2(itemRp);
+        Item item = new Item();
         itemRepository.save(item);
     }
 
