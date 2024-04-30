@@ -1,6 +1,8 @@
 package com.kurly.api.basket.service;
 
-import org.springframework.security.core.userdetails.User;
+import com.kurly.api.basket.model.BasketProductModel;
+import com.kurly.api.jpa.entity.Item;
+import com.kurly.api.jpa.entity.Member;
 
 /**
  * packageName    : com.kurly.api.basket.service
@@ -14,5 +16,7 @@ import org.springframework.security.core.userdetails.User;
  * 2024-04-23        hagjoon       최초 생성
  */
 public interface BasketService {
-    void createCart(String id,String amount, String user);
+
+    BasketProductModel updateBasket(Long basketId, BasketProductModel basketProductModel);
+    void createCart(Member member, Item item,Integer amount);
 }

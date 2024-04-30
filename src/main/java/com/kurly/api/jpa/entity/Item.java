@@ -1,5 +1,7 @@
 package com.kurly.api.jpa.entity;
 
+import com.kurly.api.item.model.ItemModel;
+import com.kurly.api.item.model.ItemPostRequestDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,7 +17,7 @@ import java.util.List;
 @Table(name = "product")
 public class Item {
     @Id@Column(name = "product_id")@GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer productId;
+    private Long productId;
 
     @Column(name = "name", length = 30)
     private String name;
@@ -34,7 +36,7 @@ public class Item {
 
     @Column(name = "img")
     private byte[] img;
-
+  
     @Column(name = "description_img")
     private byte[] descriptionImg;
 
@@ -52,4 +54,6 @@ public class Item {
 
     @Column(name = "product_information_img")
     private byte[] productInformationImg;
+
+
 }

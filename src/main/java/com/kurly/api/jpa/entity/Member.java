@@ -50,6 +50,9 @@ public class Member implements UserDetails {
     @Column(name = "gender")
     private String gender;
 
+    @Column(name = "birthdate")
+    private String birthDate;
+
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private RoleType role;

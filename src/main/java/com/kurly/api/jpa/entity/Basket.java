@@ -17,7 +17,7 @@ import java.util.List;
 @Table(name = "basket")
 public class Basket {
     @Id@Column(name = "basket_id")@GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer basketId;
+    private Long basketId;
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "member_id", unique = true ,nullable = false)
@@ -25,7 +25,7 @@ public class Basket {
     private Member member; //구매자
 
     @OneToMany(mappedBy = "basket")
-    private List<BasketProduct> basketItems = new ArrayList<>();
+    private List<BasketProduct> basketItems;
 
     @Column(name = "total_price")
     private Integer totalPrice;
@@ -34,10 +34,9 @@ public class Basket {
     private Integer totalAmount;
 
 
-
-//    public static Basket createBasket(Member member){
-//        Basket basket=new Basket();
-//
-//    }
-
+    public static Basket CreateBasket(Member member) {
+        Basket basket=new Basket();
+        basket.setMember(member);
+        return basket;
+    }
 }

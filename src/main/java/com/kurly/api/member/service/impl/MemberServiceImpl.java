@@ -49,10 +49,11 @@ public class MemberServiceImpl implements MemberService {
 
         String email = memberSignUp.getEmail();
         String password = memberSignUp.getPassword();
-        String name = memberSignUp.getName();
         String phone = memberSignUp.getPhone();
-        String addr = memberSignUp.getAddr();
+        String name = memberSignUp.getUserName();
+        String addr = memberSignUp.getAddress();
         String gender = memberSignUp.getGender();
+        String brith = memberSignUp.getBrith();
         RoleType role = memberSignUp.getRole();
 
         String encodePassword = passwordEncoder.encode(password);
@@ -65,6 +66,7 @@ public class MemberServiceImpl implements MemberService {
                                 .phone(phone)
                                 .addr(addr)
                                 .gender(gender)
+                                .birthDate(brith)
                                 .role(role)
                         .build()));
         return true;

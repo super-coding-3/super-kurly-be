@@ -1,4 +1,4 @@
-package com.kurly.api.jpa.entity;
+package com.kurly.api.memberMyPage.dto;
 
 import lombok.*;
 
@@ -8,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 public class MyBasketAndMyProduct {
-    private Integer productId;
+    private Long productId;
     private String name;
     private Integer amount;
     private Integer price;
