@@ -3,8 +3,8 @@
 cloud:
   aws:
     credentials:
-      accessKey: AKIAQ3EGTGZCTOCJEM5B
-      secretKey: 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
+      accessKey: ${accessKey}
+      secretKey: ${secretKey}
     s3:
       bucket: superkurly-bucket
     region:
