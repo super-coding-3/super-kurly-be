@@ -87,9 +87,9 @@ public class ItemController {
         return ResponseEntity.ok().body(page);
     }
 
-//
-//    @GetMapping("/page/{id}")
-//    public ItemModel findDetailItem(@PathVariable String id){
-//        return itemService.findItemDetail(id);
-//    }
+
+    @GetMapping("/page/{id}")
+    public ItemModel findDetailItem(@PathVariable String id){
+        return itemService.findItemDetail(id);
+    }
 }

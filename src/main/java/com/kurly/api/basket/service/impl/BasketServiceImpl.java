@@ -3,18 +3,17 @@ package com.kurly.api.basket.service.impl;
 import com.fasterxml.jackson.databind.node.BaseJsonNode;
 import com.kurly.api.basket.model.BasketProductModel;
 import com.kurly.api.basket.service.BasketService;
-import com.kurly.api.jpa.entity.BasketProduct;
-import com.kurly.api.jpa.entity.Item;
-import com.kurly.api.jpa.repository.BasketProductRepository;
-import com.kurly.api.jpa.repository.BasketRepository;
+import com.kurly.api.jpa.entity.*;
+import com.kurly.api.jpa.repository.*;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import com.kurly.api.jpa.repository.OptionRepository;
-import com.kurly.api.jpa.entity.Options;
-import com.kurly.api.jpa.repository.MemberRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * packageName    : com.kurly.api.basket.service.impl
@@ -35,6 +34,7 @@ public class BasketServiceImpl implements BasketService {
     private final BasketProductRepository basketProductRepository;
     private final OptionRepository optionRepository;
     private final MemberRepository memberRepository;
+    private final ItemRepository itemRepository;
 
 
     public BasketProductModel updateBasket(Long basketId, BasketProductModel basketProductModel) {
@@ -48,20 +48,40 @@ public class BasketServiceImpl implements BasketService {
     }
 
     @Override
-    public void createCart(String id,String amount, String user) {
-        if (user !=null){
-            Integer userId=Integer.valueOf(user);
-            Long idInt=Long.valueOf(id);
-            Integer amountInt=Integer.valueOf(amount);
-//            Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
-//            List<Basket> baskets=basketRepository.findByMemberId(userId);
+    public void createCart(Member member,Item newItem, Integer amount) {
 
-            Options options=optionRepository.findById(idInt).orElseThrow(
-                    ()-> new IllegalArgumentException("요청하신 옵션은 없습니다."));
+            //1.로그인 유무
+            Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
+            String currentEmail = authentication.getName();
+            Optional<Member> memberOptional = memberRepository.findByEmail(currentEmail);
 
+            //2. 로그인 했으면 로그인한 아이디에 장바구니 있는지 확인 없으면 새로 만들고 있으면 이어서 만든다.
+            if (memberOptional.isEmpty()){
+                throw new IllegalArgumentException("로그인 해주세요");
+            }else{
+               Basket basket =basketRepository.findByMemberId(member.getMemberId());
 
-        }
+               if (basket ==null) {
+                   basket = Basket.CreateBasket(member);
+                   basketRepository.save(basket);
+               }
+               Item item= itemRepository.findItemByID(newItem.getProductId());
+               BasketProduct basketProduct=basketProductRepository.findByBaksetIdAndItemId(basket.getBasketId(),item.getProductId());
 
+               if (basketProduct==null){
+                   basketProduct = BasketProduct.createBasketItem(basket,item,amount);
+                   basketProductRepository.save(basketProduct);
+               }else{
+                   BasketProduct update =basketProduct;
+                   update.setBasket(basketProduct.getBasket());
+                   update.setItem(basketProduct.getItem());
+                   update.setTotalAmount(basketProduct.getTotalAmount());
+                   basketProductRepository.save(update);
+               }
+                Integer totalAmount = (basket.getTotalAmount() != null) ? basket.getTotalAmount() : 0;
+                basket.setTotalAmount(totalAmount+amount);
+
+            }
 
     }
 
