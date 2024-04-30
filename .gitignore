@@ -17,6 +17,7 @@ bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
 
+aws.yml
 ### IntelliJ IDEA ###
 .idea
 *.iws
@@ -35,5 +36,3 @@ out/
 
 ### VS Code ###
 .vscode/
-
-### S3 ###
