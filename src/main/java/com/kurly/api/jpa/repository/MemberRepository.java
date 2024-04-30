@@ -4,6 +4,7 @@ import com.kurly.api.jpa.entity.Item;
 import com.kurly.api.jpa.entity.Member;
 import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -24,7 +25,9 @@ import java.util.Optional;
 public interface MemberRepository extends JpaRepository<Member,Long> {
 
     Optional<Member> findByEmail(String email);
-    
+
     boolean existsByEmail(String email);
 
+    @Query("SELECT m FROM Member m WHERE m.memberId = :id")
+    Member findByMember(Long id);
 }

@@ -42,6 +42,9 @@ public class MemberSignUp {
     @Schema(description = "성별")
     private String gender;
 
+    @Schema(description = "생년월일")
+    private String brith;
+
     @Schema(description = "권한")
     private RoleType role;
 }

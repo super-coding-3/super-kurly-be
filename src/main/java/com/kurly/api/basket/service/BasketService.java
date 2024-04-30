@@ -1,6 +1,8 @@
 package com.kurly.api.basket.service;
 
 import com.kurly.api.basket.model.BasketProductModel;
+import com.kurly.api.jpa.entity.Item;
+import com.kurly.api.jpa.entity.Member;
 
 /**
  * packageName    : com.kurly.api.basket.service
@@ -16,5 +18,5 @@ import com.kurly.api.basket.model.BasketProductModel;
 public interface BasketService {
 
     BasketProductModel updateBasket(Long basketId, BasketProductModel basketProductModel);
-    void createCart(String id,String amount, String user);
+    void createCart(Member member, Item item,Integer amount);
 }

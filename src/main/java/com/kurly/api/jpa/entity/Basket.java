@@ -34,10 +34,9 @@ public class Basket {
     private Integer totalAmount;
 
 
-
-//    public static Basket createBasket(Member member){
-//        Basket basket=new Basket();
-//
-//    }
-
+    public static Basket CreateBasket(Member member) {
+        Basket basket=new Basket();
+        basket.setMember(member);
+        return basket;
+    }
 }

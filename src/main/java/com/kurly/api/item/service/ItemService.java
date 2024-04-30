@@ -30,6 +30,6 @@ public interface ItemService {
     ItemModel ItemUpdate(Long id, Integer newAmount);
 
     Page<ItemAllPage> findAllWithPageable(Pageable pageable);
-//    ItemModel findItemDetail(String id);
+    ItemModel findItemDetail(String id);
 
 }

@@ -16,6 +16,7 @@ import java.util.List;
 public class BasketProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "basket_product_id")
     private Long basketId;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -31,4 +32,13 @@ public class BasketProduct {
 
     @Column(name = "total_Amount")
     private Integer totalAmount;
+
+    public static BasketProduct createBasketItem(Basket basket, Item item, Integer amount) {
+        BasketProduct basketProduct=new BasketProduct();
+        basketProduct.setBasket(basket);
+        basketProduct.setItem(item);
+        basketProduct.setTotalAmount(amount);
+        basketProduct.setTotalPrice(item.getPrice()*amount);
+        return basketProduct;
+    }
 }
