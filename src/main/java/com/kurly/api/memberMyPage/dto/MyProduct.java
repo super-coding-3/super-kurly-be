@@ -3,7 +3,6 @@ package com.kurly.api.memberMyPage.dto;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.kurly.api.jpa.entity.BasketProduct;
-import com.kurly.api.jpa.entity.MyBasketAndMyProduct;
 import lombok.*;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
