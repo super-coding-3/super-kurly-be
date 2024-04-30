@@ -49,6 +49,7 @@ public class MemberServiceImpl implements MemberService {
 
         String email = memberSignUp.getEmail();
         String password = memberSignUp.getPassword();
+        String phone = memberSignUp.getPhone();
         String name = memberSignUp.getUserName();
         String phone = memberSignUp.getPhone();
         String addr = memberSignUp.getAddress();
