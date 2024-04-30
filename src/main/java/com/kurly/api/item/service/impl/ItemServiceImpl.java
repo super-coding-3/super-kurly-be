@@ -128,36 +128,36 @@ public class ItemServiceImpl implements ItemService {
             return new PageImpl<>(itemModels, pageable, itemModels.size());
 
         }
-//        @Override
-//        public ItemModel findItemDetail (String id){
-//
-//            Integer productId = Integer.parseInt(id);
-//            Item item = itemRepository.findById(productId).orElseThrow(
-//                    () -> new IllegalArgumentException("해당 제품은 없습니다."));
-//
-//            ItemModel itemModel = new ItemModel();
-//            itemModel.setName(item.getName());
-//            itemModel.setDescription(item.getDescription());
-//            itemModel.setPrice(item.getPrice());
-//            itemModel.setImg(item.getImg());
-//            itemModel.setDescriptionImg(item.getDescriptionImg());
-//            itemModel.setAmount(item.getAmount());
-//            itemModel.setOrigin(item.getOrigin());
-//            itemModel.setShippingMethod(item.getShippingMethod());
-//            itemModel.setSellerName(item.getSellerName());
-//            itemModel.setProductInformationImg(item.getProductInformationImg());
-//
-//            List<OptionModel> optionModels = new ArrayList<>();
-//            for (Options option : item.getOptions()) {
-//                if (productId.equals(option.getProduct().getProductId())) {
-//                    OptionModel optionModel = new OptionModel();
-//                    optionModel.setPrice(option.getPrice());
-//                    optionModel.setTitle(option.getTitle());
-//                    optionModels.add(optionModel);
-//                }
-//            }
-//            return new PageImpl<>(itemModels, pageable, items.getTotalElements());
-//        }
+        @Override
+        public ItemModel findItemDetail (String id){
+
+            Integer productId = Integer.parseInt(id);
+            Item item = itemRepository.findById(Long.valueOf(productId)).orElseThrow(
+                    () -> new IllegalArgumentException("해당 제품은 없습니다."));
+
+            ItemModel itemModel = new ItemModel();
+            itemModel.setName(item.getName());
+            itemModel.setDescription(item.getDescription());
+            itemModel.setPrice(item.getPrice());
+            itemModel.setImg(item.getImg());
+            itemModel.setDescriptionImg(item.getDescriptionImg());
+            itemModel.setAmount(item.getAmount());
+            itemModel.setOrigin(item.getOrigin());
+            itemModel.setShippingMethod(item.getShippingMethod());
+            itemModel.setSellerName(item.getSellerName());
+            itemModel.setProductInformationImg(item.getProductInformationImg());
+
+            List<OptionModel> optionModels = new ArrayList<>();
+            for (Options option : item.getOptions()) {
+                if (productId.equals(option.getProduct().getProductId())) {
+                    OptionModel optionModel = new OptionModel();
+                    optionModel.setPrice(option.getPrice());
+                    optionModel.setTitle(option.getTitle());
+                    optionModels.add(optionModel);
+                }
+            }
+            return itemModel;
+        }
 
     private ItemRp sameItemName(String name) {
         return itemRepository.findByName(name);
