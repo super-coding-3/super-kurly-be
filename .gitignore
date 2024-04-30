@@ -18,7 +18,6 @@ bin/
 !**/src/test/**/bin/
 
 ### S3 ###
-aws.yml
 
 ### IntelliJ IDEA ###
 .idea

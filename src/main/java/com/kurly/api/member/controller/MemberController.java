@@ -1,5 +1,6 @@
 package com.kurly.api.member.controller;
 
+import com.kurly.api.config.S3Uploader;
 import com.kurly.api.config.jwt.JwtProperties;
 import com.kurly.api.config.security.CustomLogoutHandler;
 import com.kurly.api.jpa.entity.RoleType;
@@ -16,7 +17,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -42,6 +45,7 @@ public class MemberController {
     private final MemberService memberService;
 
     private final CustomLogoutHandler customLogoutHandler;
+
 
     @PostMapping("/signup")
     @Operation(summary = "회원 가입")
