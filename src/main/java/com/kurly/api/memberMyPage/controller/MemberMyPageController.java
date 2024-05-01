@@ -5,6 +5,7 @@ import com.kurly.api.memberMyPage.dto.MemberInfo;
 import com.kurly.api.memberMyPage.dto.MyBasketProduct;
 import com.kurly.api.memberMyPage.dto.MyPurchase;
 import com.kurly.api.memberMyPage.service.MemberMyPageService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -26,6 +27,7 @@ public class MemberMyPageController {
     private final MemberMyPageService memberMyPageService;
 
     @GetMapping("/info/{id}")
+    @Operation(summary = "내 정보 조회")
     public ResponseEntity<?> findMyInfo(@PathVariable Long id) {
         try {
             MemberInfo memberInfo = memberMyPageService.findMemberInfoById(id);
@@ -38,6 +40,7 @@ public class MemberMyPageController {
     }
 
     @GetMapping("/basket/{id}")
+    @Operation(summary = "내 장바구니 목록 조회")
     public ResponseEntity<?> findMyBasket(@PathVariable Long id) {
         try {
             List<MyBasketProduct> myBasketProducts = memberMyPageService.findBasketProduct(id);
@@ -49,6 +52,7 @@ public class MemberMyPageController {
     }
 
     @GetMapping("/purchase/{id}")
+    @Operation(summary = "내 구매 목록 조회")
     public ResponseEntity<?> findMyPurchase(@PathVariable Long id) {
         try {
             List<MyPurchase> myPurchases = memberMyPageService.findPurchaseProduct(id);
