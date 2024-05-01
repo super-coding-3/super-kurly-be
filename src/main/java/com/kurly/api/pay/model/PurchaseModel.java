@@ -18,7 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 public class PurchaseModel {
     private Long purchaseId;
-    private List<Item> items;
+    private Item items;
     private Member member;
     private String purchaseDate;
 

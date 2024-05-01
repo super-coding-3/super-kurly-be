@@ -2,7 +2,9 @@ package com.kurly.api.basket.service.impl;
 
 import com.fasterxml.jackson.databind.node.BaseJsonNode;
 import com.kurly.api.basket.model.BasketProductModel;
+import com.kurly.api.basket.model.MyCartModel;
 import com.kurly.api.basket.service.BasketService;
+import com.kurly.api.basket.util.ConverterUtil;
 import com.kurly.api.jpa.entity.*;
 import com.kurly.api.jpa.repository.*;
 import jakarta.persistence.EntityNotFoundException;
@@ -48,7 +50,7 @@ public class BasketServiceImpl implements BasketService {
     }
 
     @Override
-    public void createCart(Member member,Item newItem, Integer amount) {
+    public void createCart(Member member,Item newItem, Integer amount, Options options) {
 
             //1.로그인 유무
             Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
@@ -69,19 +71,46 @@ public class BasketServiceImpl implements BasketService {
                BasketProduct basketProduct=basketProductRepository.findByBaksetIdAndItemId(basket.getBasketId(),item.getProductId());
 
                if (basketProduct==null){
-                   basketProduct = BasketProduct.createBasketItem(basket,item,amount);
-                   basketProductRepository.save(basketProduct);
-               }else{
-                   BasketProduct update =basketProduct;
-                   update.setBasket(basketProduct.getBasket());
-                   update.setItem(basketProduct.getItem());
-                   update.setTotalAmount(basketProduct.getTotalAmount());
-                   basketProductRepository.save(update);
+                   basketProduct = BasketProduct.createBasketItem(basket,item,amount,options);
+
+               }else {
+                   // 이미 있는 제품인 경우, 수량 증가
+                   int newAmount = basketProduct.getTotalAmount() + amount;
+                   int newPrice =basketProduct.getTotalPrice() *amount;
+                   basketProduct.setTotalPrice(newPrice);
+                   basketProduct.setTotalAmount(newAmount);
                }
-                Integer totalAmount = (basket.getTotalAmount() != null) ? basket.getTotalAmount() : 0;
-                basket.setTotalAmount(totalAmount+amount);
+
+                // 장바구니 상품 저장
+                basketProductRepository.save(basketProduct);
+
+                // 총 수량 업데이트
+                int totalAmount = (basket.getTotalAmount() != null) ? basket.getTotalAmount() : 0;
+                basket.setTotalAmount(totalAmount + amount);
 
             }
+
+    }
+
+    @Override
+    public List<MyCartModel> showMyCart() {
+
+        //1.로그인 유무
+        Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
+        String currentEmail = authentication.getName();
+        Optional<Member> memberOptional = memberRepository.findByEmail(currentEmail);
+
+        if (memberOptional.isEmpty()){
+            throw new IllegalArgumentException("로그인 해주세요");
+        }else {
+            Long memberId=memberRepository.findByEmailToId(currentEmail);
+            List<BasketProduct> basketProducts = basketProductRepository.findByMemberId(memberId);
+
+             ConverterUtil converterUtil = new ConverterUtil();
+
+             return converterUtil.convertToMyCartModels(basketProducts);
+        }
+
 
     }
 

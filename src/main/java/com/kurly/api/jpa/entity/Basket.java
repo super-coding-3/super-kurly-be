@@ -16,7 +16,9 @@ import java.util.List;
 @Entity
 @Table(name = "basket")
 public class Basket {
-    @Id@Column(name = "basket_id")@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @Column(name = "basket_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long basketId;
 
     @OneToOne(fetch = FetchType.EAGER)

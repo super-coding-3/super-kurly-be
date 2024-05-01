@@ -1,14 +1,23 @@
 package com.kurly.api.basket.controller;
 
 import com.kurly.api.basket.model.BasketProductModel;
+import com.kurly.api.basket.model.MyCartModel;
 import com.kurly.api.basket.service.BasketService;
 import com.kurly.api.jpa.entity.Item;
 import com.kurly.api.jpa.entity.Member;
+import com.kurly.api.jpa.entity.Options;
 import com.kurly.api.jpa.repository.ItemRepository;
 import com.kurly.api.jpa.repository.MemberRepository;
+import com.kurly.api.jpa.repository.OptionRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * packageName    : com.kurly.api.basket.controller
@@ -29,6 +38,7 @@ public class BasketController {
     private final BasketService basketService;
     private final MemberRepository memberRepository;
     private final ItemRepository itemRepository;
+    private final OptionRepository optionRepository;
 
     @PutMapping("/product/{basketId}")
     public BasketProductModel updateBasket(@PathVariable Long basketId, @RequestBody BasketProductModel basketProductModel) {
@@ -42,10 +52,20 @@ public class BasketController {
    @PostMapping("/{id}/{item_id}/{amount}")
    public void itemBasket(@PathVariable("id") Long id,
                           @PathVariable("item_id") Long itemId,
-                          @PathVariable("amount") Integer amount){
-        Member member = memberRepository.findByMember(id);
-       Item item=itemRepository.findByOption(itemId);
+                          @PathVariable("amount") Integer amount,
+                          @RequestParam(value = "option_id", required = false) Long optionId)
+    {
 
-       basketService.createCart(member,item,amount);
+        Member member = memberRepository.findByMember(id);
+        Item item=itemRepository.findItemByID(itemId);
+        Options options=optionRepository.findByOptionId(optionId);
+
+       basketService.createCart(member,item,amount,options);
+   }
+
+   @GetMapping("/mycart")
+    public ResponseEntity<List<MyCartModel>> showMyCart(){
+       List<MyCartModel> myCartModels= basketService.showMyCart();
+       return ResponseEntity.ok().body(myCartModels);
    }
 }
