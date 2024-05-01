@@ -40,7 +40,7 @@ public class MemberMyPageService {
 
     public List<MyBasketProduct> findBasketProduct(Long id) {
         Member member = memberRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("해당 ID를 찾을 수 없습니다."));
+                .orElseThrow(() -> new NotFoundException("해당 ID의 장바구니를 찾을 수 없습니다."));
         if (member != null) {
             List<MyBasketAndMyProduct> myBasketAndMyProducts = basketProductRepository.findMyBasketAndMyProduct(id);
             return myBasketAndMyProducts.stream().map(MyBasketProduct::new).collect(Collectors.toList());
@@ -52,7 +52,7 @@ public class MemberMyPageService {
 
     public List<MyPurchase> findPurchaseProduct(Long id) {
         Member member = memberRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("해당 ID를 찾을 수 없습니다."));
+                .orElseThrow(() -> new NotFoundException("해당 ID의 구매 목록을 찾을 수 없습니다."));
         if (member != null) {
             List<PurchaseAndProduct> purchaseAndProducts = purchaseRepository.findMyPurchases(id);
             return purchaseAndProducts.stream().map(MyPurchase::new).collect(Collectors.toList());
