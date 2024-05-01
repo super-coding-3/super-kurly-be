@@ -22,7 +22,7 @@ import java.util.List;
 @Repository
 public interface BasketProductRepository extends JpaRepository<BasketProduct,Long> {
 
-    @Query("SELECT new com.kurly.api.jpa.entity.MyBasketAndMyProduct(i.productId, i.name, i.price, bp.totalAmountBasketProduct) " +
+    @Query("SELECT new com.kurly.api.jpa.entity.MyBasketAndMyProduct(i.productId, i.name, i.price, bp.totalAmount) " +
             "FROM BasketProduct bp " +
             "JOIN bp.basket b " +
             "JOIN bp.item i " +
