@@ -78,9 +78,12 @@ public class MemberController {
             // 로그인 시도 및 jwt 토큰 생성
             String token = memberService.login(login);
 
-            Map<String, String> responseBody = new HashMap<>();
+            Map<String,String> data = new HashMap<>();
+            data.put("token",JwtProperties.TOKEN_PREFIX + token);
+
+            Map<String, Object> responseBody = new HashMap<>();
+            responseBody.put("data",data);
             responseBody.put("message","로그인에 성공하였습니다. 토큰을 발급합니다.");
-            responseBody.put("token",JwtProperties.TOKEN_PREFIX + token);
 
             httpServletResponse.setHeader(JwtProperties.HEADER_STRING,JwtProperties.TOKEN_PREFIX + token);
             log.info("jwt 토큰 : {} ",token);
