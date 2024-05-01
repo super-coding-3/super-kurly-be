@@ -4,6 +4,7 @@ import com.kurly.api.jpa.entity.Purchase;
 import com.kurly.api.jpa.entity.PurchaseAndProduct;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -24,6 +25,6 @@ public interface PurchaseRepository extends JpaRepository<Purchase,Long> {
     @Query("SELECT new com.kurly.api.jpa.entity.PurchaseAndProduct(i.productId, i.name, i.price, p.purchaseDate) " +
             "FROM Purchase p " +
             "JOIN p.item i " +
-            "WHERE p.member = :id ")
-    List<PurchaseAndProduct> findMyPurchases(Long id);
+            "WHERE p.member.memberId = :id ")
+    List<PurchaseAndProduct> findMyPurchases(@Param("id") Long id);
 }

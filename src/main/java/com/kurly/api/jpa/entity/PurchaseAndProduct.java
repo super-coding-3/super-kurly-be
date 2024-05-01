@@ -14,6 +14,4 @@ public class PurchaseAndProduct {
     private String name;
     private Integer price;
     private LocalDateTime purchaseDate;
-
-
 }

@@ -17,11 +17,12 @@ import java.util.List;
 public class Purchase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "purchase_id")
     private Long purchaseId;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id")
-    private List<Item> item;
+    private Item item;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
