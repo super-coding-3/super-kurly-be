@@ -46,7 +46,7 @@ public class ItemModel {
     @Schema(description = "물품등록시간")
     private LocalDateTime createAt;
 
-    private List<Options> optionName;
+    private List<OptionModel> optionName;
     @Schema(description = "제품이미지")
     private byte[] img;
     private byte[] descriptionImg;

@@ -155,7 +155,7 @@ public class ItemServiceImpl implements ItemService {
                     optionModels.add(optionModel);
             }
 
-            itemModel.setOptions(optionModels);
+            itemModel.setOptionName(optionModels);
             return itemModel;
         }
 
