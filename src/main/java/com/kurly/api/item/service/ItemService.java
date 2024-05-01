@@ -2,12 +2,10 @@ package com.kurly.api.item.service;
 
 import com.kurly.api.item.model.ItemAllPage;
 import com.kurly.api.item.model.ItemModel;
-import com.kurly.api.item.model.ItemPostRequestDto;
-import com.kurly.api.item.model.ItemRp;
 import com.kurly.api.jpa.entity.Item;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * packageName    : com.kurly.api.item.service
@@ -22,8 +20,9 @@ import org.springframework.data.jpa.repository.Query;
  */
 public interface ItemService {
 
-    void save(Item item);
-    void saveItem(ItemPostRequestDto itemRq);
+    Item save(Item item);
+
+    String saveImage(Long productId, MultipartFile image);
 
     ItemModel getItemById(Long itemId);
 

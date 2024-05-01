@@ -16,6 +16,6 @@ public class ItemAllPage {
     private Integer price;
     private Integer amount;
     private String description;
-    private byte[] img;
+    private String img;
 
 }

@@ -5,68 +5,71 @@ import com.kurly.api.jpa.entity.Options;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 @ToString
 public class ItemPostRequestDto {
 
-    @NotBlank
     @Schema(description = "물품이름",example = "딸기")
     private final String name;
 
-    @NotNull
-    @Min(0)
     @Schema(description = "수량" ,example = "10")
     private final Integer amount;
 
-    @NotNull
-    @Min(0)
     @Schema(description = "가격" ,example = "10000")
     private final Integer price;
 
-    @NotBlank
-    @Size(max = 150)
     @Schema(description = "상세설명" ,example = "새콤함")
     private final String description;
 
     @Schema(description = "옵션" ,example = "강원도딸기")
     private final List<Options> optionName;
-    @NotBlank
+
     @Schema(description = "원산지" ,example = "국내산")
     private final String origin;
 
     @Schema(description = "배송방법" ,example = "퀵배송")
     private final String shippingMethod;
 
-    @NotBlank
     @Schema(description = "판매자" ,example = "KIM")
     private final String sellerName;
 
+    private final MultipartFile imageMultipartFile;
 
     @Builder
     public ItemPostRequestDto(
+            @NotBlank
             String name,
+            @NotNull
+            @Min(0)
             Integer amount,
+            @NotNull
+            @Min(0)
             Integer price,
+            @NotBlank
+            @Size(max = 150)
             String description,
             List<Options> optionName,
+            @NotBlank
             String origin,
+            @NotBlank
             String shippingMethod,
-            String sellerName
+            @NotBlank
+            String sellerName,
+            @NotNull
+            MultipartFile imageMultipartFile
     ) {
-
         name = name.strip(); //strip() 유니코드상에서 공백으로 보이는 모든 것을 문자열 앞뒤에선 제외
         description = description.strip();
         origin = origin.strip();
         shippingMethod = shippingMethod.strip();
         sellerName = sellerName.strip();
-
 
         this.name = name;
         this.amount = amount;
@@ -76,6 +79,7 @@ public class ItemPostRequestDto {
         this.origin = origin;
         this.shippingMethod = shippingMethod;
         this.sellerName = sellerName;
+        this.imageMultipartFile = imageMultipartFile;
     }
 
     public Item toEntity() {
@@ -104,7 +108,7 @@ public class ItemPostRequestDto {
                 .price(getPrice())
                 .description(getDescription())
                 .createAt(convertedCreateAt)
-                .options(getOptionName())
+                //.options(getOptionName())
                 .origin(getOrigin())
                 .shippingMethod(getShippingMethod())
                 .sellerName(getSellerName())

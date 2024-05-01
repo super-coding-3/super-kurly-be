@@ -2,6 +2,7 @@ package com.kurly.api.item.service.impl;
 
 import com.kurly.api.common.support.exception.CustomException;
 import com.kurly.api.common.support.exception.ErrorCode;
+import com.kurly.api.config.S3Uploader;
 import com.kurly.api.item.model.*;
 import com.kurly.api.item.service.ItemService;
 import com.kurly.api.jpa.entity.Item;
@@ -13,9 +14,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.text.MessageFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoField;
 import java.util.*;
 
 /**
@@ -36,27 +43,43 @@ public class ItemServiceImpl implements ItemService {
     private final ItemRepository itemRepository;
     private final OptionRepository optionRepository;
 
-    private String uploadPath;
+    private final S3Uploader s3Uploader;
 
-    public void saveItem(ItemPostRequestDto itemRq) {
-        ItemRp existingItem = sameItemName(itemRq.getName());
-        if (existingItem != null) {
-            throw new IllegalArgumentException("물품이름 " + itemRq.getName() + "은 이미 등록 되어있습니다");
+    @Override
+    public String saveImage(Long productId, MultipartFile image) {
+        try {
+//            Instant now = Instant.now();
+//            int year = now.get(ChronoField.YEAR);
+//            int month = now.get(ChronoField.MONTH_OF_YEAR);
+//            int date = now.get(ChronoField.DAY_OF_MONTH);
+//            UUID uuid = UUID.randomUUID();
+//            String directory = MessageFormat.format("{0}/{1}/{2}/{3}" ,year, month ,date, uuid);
+            String directory  =LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+            String fileUrl = s3Uploader.upload(image,directory);
+
+            Item item = itemRepository.findById(productId)
+                    .orElseThrow(()-> new CustomException(ErrorCode.ITEM_NOT_FOUND));
+            item.setImg(fileUrl);
+            item.setDescriptionImg(fileUrl);
+            item.setProductInformationImg(fileUrl);
+            itemRepository.save(item);
+
+            return fileUrl;
+
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        Item item = new Item();
-        itemRepository.save(item);
     }
 
     @Override
-    public void save(Item item) {
+    public Item save(Item item) {
         boolean exists = itemRepository.existsByName(item.getName());
 
         if (exists) {
             throw new CustomException(ErrorCode.DUPLICATED_ITEM_NAME);
-            // throw new IllegalArgumentException("물품이름 " + item.getName() + "은 이미 등록 되어있습니다");
         }
-
-        itemRepository.save(item);
+       return itemRepository.save(item);
     }
 
     //조회
@@ -106,13 +129,13 @@ public class ItemServiceImpl implements ItemService {
             for (Map.Entry<String, Integer> entry : totalAmounts.entrySet()) {
                 String itemName = entry.getKey();
                 int totalAmount = entry.getValue();
-                byte[] image = firstImageMap.get(itemName);
+                Byte[] image = firstImageMap.get(itemName);
                 String description = descriptionMap.get(itemName);
 
                 ItemAllPage itemModel = new ItemAllPage();
                 itemModel.setName(itemName);
                 itemModel.setAmount(totalAmount);
-                itemModel.setImg(image);
+                //itemModel.setImg(image);
                 itemModel.setDescription(description);
 
                 // 가격은 원래 가격을 그대로 사용
