@@ -106,7 +106,7 @@ public class ItemServiceImpl implements ItemService {
         public Page<ItemAllPage> findAllWithPageable (Pageable pageable){
             Page<Item> items = itemRepository.findAll(pageable);
             Map<String, Integer> totalAmounts = new HashMap<>();
-            Map<String, byte[]> firstImageMap = new HashMap<>();
+            Map<String, String> firstImageMap = new HashMap<>();
             Map<String, String> descriptionMap = new HashMap<>();
 
 
@@ -129,7 +129,7 @@ public class ItemServiceImpl implements ItemService {
             for (Map.Entry<String, Integer> entry : totalAmounts.entrySet()) {
                 String itemName = entry.getKey();
                 int totalAmount = entry.getValue();
-                Byte[] image = firstImageMap.get(itemName);
+                String image = firstImageMap.get(itemName);
                 String description = descriptionMap.get(itemName);
 
                 ItemAllPage itemModel = new ItemAllPage();

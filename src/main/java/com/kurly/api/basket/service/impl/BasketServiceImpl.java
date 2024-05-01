@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.node.BaseJsonNode;
 import com.kurly.api.basket.model.BasketProductModel;
 import com.kurly.api.basket.model.MyCartModel;
 import com.kurly.api.basket.service.BasketService;
-import com.kurly.api.basket.util.ConverterUtil;
 import com.kurly.api.jpa.entity.*;
 import com.kurly.api.jpa.repository.*;
 import jakarta.persistence.EntityNotFoundException;
@@ -14,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,45 +50,51 @@ public class BasketServiceImpl implements BasketService {
     }
 
     @Override
-    public void createCart(Member member,Item newItem, Integer amount, Options options) {
+    public void createCart(Item newItem, Integer amount, Options options) {
 
-            //1.로그인 유무
-            Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
-            String currentEmail = authentication.getName();
-            Optional<Member> memberOptional = memberRepository.findByEmail(currentEmail);
+        //1.로그인 유무
+        Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
+        String currentEmail = authentication.getName();
+        Long memberId=memberRepository.findByEmailToId(currentEmail);
+        Member member1=memberRepository.findByMember(memberId);
 
-            //2. 로그인 했으면 로그인한 아이디에 장바구니 있는지 확인 없으면 새로 만들고 있으면 이어서 만든다.
-            if (memberOptional.isEmpty()){
-                throw new IllegalArgumentException("로그인 해주세요");
-            }else{
-               Basket basket =basketRepository.findByMemberId(member.getMemberId());
+        //2. 로그인 했으면 로그인한 아이디에 장바구니 있는지 확인 없으면 새로 만들고 있으면 이어서 만든다.
+        if (memberId==null){
+            throw new IllegalArgumentException("로그인 해주세요");
+        }else{
+            Basket basket =basketRepository.findByMemberId(memberId);
 
-               if (basket ==null) {
-                   basket = Basket.CreateBasket(member);
-                   basketRepository.save(basket);
-               }
-               Item item= itemRepository.findItemByID(newItem.getProductId());
-               BasketProduct basketProduct=basketProductRepository.findByBaksetIdAndItemId(basket.getBasketId(),item.getProductId());
-
-               if (basketProduct==null){
-                   basketProduct = BasketProduct.createBasketItem(basket,item,amount,options);
-
-               }else {
-                   // 이미 있는 제품인 경우, 수량 증가
-                   int newAmount = basketProduct.getTotalAmount() + amount;
-                   int newPrice =basketProduct.getTotalPrice() *amount;
-                   basketProduct.setTotalPrice(newPrice);
-                   basketProduct.setTotalAmount(newAmount);
-               }
-
-                // 장바구니 상품 저장
-                basketProductRepository.save(basketProduct);
-
-                // 총 수량 업데이트
-                int totalAmount = (basket.getTotalAmount() != null) ? basket.getTotalAmount() : 0;
-                basket.setTotalAmount(totalAmount + amount);
-
+            if (basket ==null) {
+                basket = Basket.CreateBasket(member1);
+                basketRepository.save(basket);
             }
+            Item item= itemRepository.findItemByID(newItem.getProductId());
+            BasketProduct basketProduct=basketProductRepository.findByBaksetIdAndItemId(basket.getBasketId(),item.getProductId());
+
+            if (basketProduct==null){
+                basketProduct = BasketProduct.createBasketItem(basket,item,amount,options);
+
+            }else {
+                // 이미 있는 제품인 경우, 수량 증가
+                int newAmount = basketProduct.getTotalAmount() + amount;
+                basketProduct.setTotalAmount(newAmount);
+                if(options ==null) {
+                    int newPrice = basketProduct.getTotalPrice() * amount;
+                    basketProduct.setTotalPrice(newPrice);
+                }else{
+                    int newPrice = options.getPrice() * amount;
+                    basketProduct.setTotalPrice(newPrice);
+                }
+            }
+
+            // 장바구니 상품 저장
+            basketProductRepository.save(basketProduct);
+
+            // 총 수량 업데이트
+            int totalAmount = (basket.getTotalAmount() != null) ? basket.getTotalAmount() : 0;
+            basket.setTotalAmount(totalAmount + amount);
+
+        }
 
     }
 
@@ -106,13 +112,34 @@ public class BasketServiceImpl implements BasketService {
             Long memberId=memberRepository.findByEmailToId(currentEmail);
             List<BasketProduct> basketProducts = basketProductRepository.findByMemberId(memberId);
 
-             ConverterUtil converterUtil = new ConverterUtil();
+            List<MyCartModel> myCartModels =new ArrayList<>();
+            Integer totalPrice=0;
+            Integer totalAmount=0;
+            for (BasketProduct basketProduct:basketProducts){
+                MyCartModel myCartModel= new MyCartModel();
+                myCartModel.setName(basketProduct.getItem().getName());
+                myCartModel.setDescription(basketProduct.getItem().getDescription());
+                if (basketProduct.getOptionId() != null) {
+                    myCartModel.setTitle(basketProduct.getOptionId().getTitle());
+                } else {
+                    myCartModel.setTitle(null);
+                }
+                myCartModel.setPrice(basketProduct.getTotalPrice());
+                myCartModel.setAmount(basketProduct.getTotalAmount());
+                myCartModels.add(myCartModel);
+                totalPrice +=basketProduct.getTotalPrice();
+                totalAmount += basketProduct.getTotalAmount();
+            }
 
-             return converterUtil.convertToMyCartModels(basketProducts);
+            for (MyCartModel myCartModel :myCartModels){
+                myCartModel.setTotalPriceAndAmount(totalPrice, totalAmount);
+            }
+            return myCartModels;
+
         }
 
-
     }
+
 
 
 }
