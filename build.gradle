@@ -18,12 +18,7 @@ configurations {
 }
 
 repositories {
-    mavenCentral() // 기존에 선언된 Maven Central Repository
-
-    // AWS SDK를 제공하는 Maven Repository 추가
-    maven {
-        url  'com.amazonaws:aws-java-sdk:1.12.0'  // 또는 AWS SDK가 호스팅되는 곳의 URL을 지정합니다.
-    }
+    mavenCentral()
 }
 
 dependencies {
@@ -62,11 +57,6 @@ dependencies {
 
 // https://mavenlibs.com/maven/dependency/commons-fileupload/commons-fileupload
     implementation 'commons-fileupload:commons-fileupload:1.4'
-
-    implementation 'com.amazonaws:aws-java-sdk:1.12.0'
-
-    implementation platform('com.amazonaws:aws-java-sdk-bom:1.11.228')
-    implementation 'com.amazonaws:aws-java-sdk-s3'
 }
 
 tasks.compileJava{
