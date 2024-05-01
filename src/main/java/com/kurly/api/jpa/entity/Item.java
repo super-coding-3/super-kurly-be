@@ -1,7 +1,7 @@
 package com.kurly.api.jpa.entity;
 
 import com.kurly.api.item.model.ItemModel;
-import com.kurly.api.item.model.ItemRp;
+import com.kurly.api.item.model.ItemPostRequestDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -55,25 +55,5 @@ public class Item {
     @Column(name = "product_information_img")
     private byte[] productInformationImg;
 
-    public static Item toDto(ItemModel itemModel){
-        return Item.builder()
-                .productId(itemModel.getProductId())
-                .name(itemModel.getName())
-                .amount(itemModel.getAmount())
-                .price(itemModel.getPrice())
-                .description(itemModel.getDescription())
-                .createAt(itemModel.getCreateAt())
-                .img(itemModel.getImg())
-                .build();
-    }
 
-    public static Item toDto2(ItemRp itemRQ){
-        return  Item.builder()
-                .name(itemRQ.getName())
-                .amount(itemRQ.getAmount())
-                .price(itemRQ.getPrice())
-                .description(itemRQ.getDescription())
-                .createAt(itemRQ.getCreateAt())
-                .build();
-    }
 }
