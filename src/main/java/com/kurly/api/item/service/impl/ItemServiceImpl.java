@@ -7,6 +7,7 @@ import com.kurly.api.item.service.ItemService;
 import com.kurly.api.jpa.entity.Item;
 import com.kurly.api.jpa.entity.Options;
 import com.kurly.api.jpa.repository.ItemRepository;
+import com.kurly.api.jpa.repository.OptionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -33,6 +34,7 @@ import java.util.*;
 @Slf4j
 public class ItemServiceImpl implements ItemService {
     private final ItemRepository itemRepository;
+    private final OptionRepository optionRepository;
 
     private String uploadPath;
 
@@ -144,15 +146,16 @@ public class ItemServiceImpl implements ItemService {
             itemModel.setSellerName(item.getSellerName());
             itemModel.setProductInformationImg(item.getProductInformationImg());
 
-            List<OptionModel> optionModels = new ArrayList<>();
-            for (Options option : item.getOptions()) {
-                if (productId.equals(option.getProduct().getProductId())) {
+            List<Options> options= optionRepository.findByProductId(productId);
+            List<OptionModel> optionModels =new ArrayList<>();
+            for (Options option :options){
                     OptionModel optionModel = new OptionModel();
                     optionModel.setPrice(option.getPrice());
                     optionModel.setTitle(option.getTitle());
                     optionModels.add(optionModel);
-                }
             }
+
+            itemModel.setOptionName(optionModels);
             return itemModel;
         }
 

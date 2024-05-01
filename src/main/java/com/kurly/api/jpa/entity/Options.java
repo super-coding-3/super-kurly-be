@@ -16,7 +16,7 @@ public class Options {
     @Column(name = "option_id")
     private Long optionId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id")
     private Item product;
 
