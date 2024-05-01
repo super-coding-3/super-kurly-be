@@ -43,8 +43,9 @@ public class BasketController {
    public void itemBasket(@PathVariable("id") Long id,
                           @PathVariable("item_id") Long itemId,
                           @PathVariable("amount") Integer amount){
+
         Member member = memberRepository.findByMember(id);
-       Item item=itemRepository.findByOption(itemId);
+        Item item=itemRepository.findByOption(itemId);
 
        basketService.createCart(member,item,amount);
    }

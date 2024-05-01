@@ -59,16 +59,16 @@ public class ItemModel {
     private static DateTimeFormatter formatter=
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
-    public ItemModel(Item item) {
-        this.productId = item.getProductId();
-        this.name = item.getName();
-        this.amount = item.getAmount();
-        this.price = item.getPrice();
-        this.description = item.getDescription();
-        this.createAt = getCreateAt();
-        //this.createAt=item.getCreateAt().format(formatter);
-        this.img = item.getImg();
-    }
+//    public ItemModel(Item item) {
+//        this.productId = item.getProductId();
+//        this.name = item.getName();
+//        this.amount = item.getAmount();
+//        this.price = item.getPrice();
+//        this.description = item.getDescription();
+//        this.createAt = getCreateAt();
+//        //this.createAt=item.getCreateAt().format(formatter);
+//        this.img = item.getImg();
+//    }
 
     public static ItemModel toEntity(Item item){
         return ItemModel.builder()

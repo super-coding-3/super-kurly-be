@@ -70,16 +70,21 @@ public class BasketServiceImpl implements BasketService {
 
                if (basketProduct==null){
                    basketProduct = BasketProduct.createBasketItem(basket,item,amount);
-                   basketProductRepository.save(basketProduct);
-               }else{
-                   BasketProduct update =basketProduct;
-                   update.setBasket(basketProduct.getBasket());
-                   update.setItem(basketProduct.getItem());
-                   update.setTotalAmount(basketProduct.getTotalAmount());
-                   basketProductRepository.save(update);
+
+               }else {
+                   // 이미 있는 제품인 경우, 수량 증가
+                   int newAmount = basketProduct.getTotalAmount() + amount;
+                   int newPrice =basketProduct.getTotalPrice() *amount;
+                   basketProduct.setTotalPrice(newPrice);
+                   basketProduct.setTotalAmount(newAmount);
                }
-                Integer totalAmount = (basket.getTotalAmount() != null) ? basket.getTotalAmount() : 0;
-                basket.setTotalAmount(totalAmount+amount);
+
+                // 장바구니 상품 저장
+                basketProductRepository.save(basketProduct);
+
+                // 총 수량 업데이트
+                int totalAmount = (basket.getTotalAmount() != null) ? basket.getTotalAmount() : 0;
+                basket.setTotalAmount(totalAmount + amount);
 
             }
 
