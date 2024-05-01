@@ -24,5 +24,9 @@ public class MyCartModel {
     private Integer totalPrice;
     private Integer totalAmount;
     private Options option;
+    public void setTotalPriceAndAmount(Integer totalPrice, Integer totalAmount) {
+        this.totalPrice = totalPrice;
+        this.totalAmount = totalAmount;
+    }
 
 }

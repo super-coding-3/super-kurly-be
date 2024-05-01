@@ -22,7 +22,7 @@ import java.util.List;
 public interface BasketService {
 
     BasketProductModel updateBasket(Long basketId, BasketProductModel basketProductModel);
-    void createCart(Member member, Item item, Integer amount, Options options);
+    void createCart(Item item, Integer amount, Options options);
 
     List<MyCartModel> showMyCart();
 }
