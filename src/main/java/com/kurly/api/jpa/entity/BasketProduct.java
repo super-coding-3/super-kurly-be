@@ -17,7 +17,7 @@ public class BasketProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "basket_product_id")
-    private Long basketId;
+    private Long basketProductId;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id")
@@ -30,8 +30,8 @@ public class BasketProduct {
     @Column(name = "total_price")
     private Integer totalPrice;
 
-    @Column(name = "total_amountbasket_product")
-    private Integer totalAmountBasketProduct;
+    @Column(name = "total_Amount")
+    private Integer totalAmount;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "option_id")
@@ -41,7 +41,7 @@ public class BasketProduct {
         BasketProduct basketProduct=new BasketProduct();
         basketProduct.setBasket(basket);
         basketProduct.setItem(item);
-        basketProduct.setTotalAmountBasketProduct(amount);
+        basketProduct.setTotalAmount(amount);
         basketProduct.setTotalPrice(item.getPrice()*amount);
         basketProduct.setOptionId(options);
         return basketProduct;

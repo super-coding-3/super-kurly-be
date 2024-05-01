@@ -21,7 +21,7 @@ public class MyBasketProduct {
     public MyBasketProduct(BasketProduct basketProduct) {
         this.productId = basketProduct.getItem().getProductId();
         this.name = basketProduct.getItem().getName();
-        this.amount = basketProduct.getTotalAmountBasketProduct();
+        this.amount = basketProduct.getTotalAmount();
         this.price = basketProduct.getItem().getPrice();
     }
 
