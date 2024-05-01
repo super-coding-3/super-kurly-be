@@ -1,4 +1,4 @@
-package com.kurly.api.memberMyPage.dto;
+package com.kurly.api.jpa.entity;
 
 import lombok.*;
 

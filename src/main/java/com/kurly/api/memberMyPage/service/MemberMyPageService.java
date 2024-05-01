@@ -1,11 +1,14 @@
 package com.kurly.api.memberMyPage.service;
 
-import com.kurly.api.jpa.entity.BasketProduct;
 import com.kurly.api.jpa.entity.Member;
+import com.kurly.api.jpa.entity.MyBasketAndMyProduct;
+import com.kurly.api.jpa.entity.PurchaseAndProduct;
 import com.kurly.api.jpa.repository.BasketProductRepository;
 import com.kurly.api.jpa.repository.MemberRepository;
+import com.kurly.api.jpa.repository.PurchaseRepository;
 import com.kurly.api.memberMyPage.dto.MemberInfo;
-import com.kurly.api.memberMyPage.dto.MyProduct;
+import com.kurly.api.memberMyPage.dto.MyBasketProduct;
+import com.kurly.api.memberMyPage.dto.MyPurchase;
 import com.kurly.api.memberMyPage.service.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,11 +25,12 @@ public class MemberMyPageService {
 
     private final MemberRepository memberRepository;
     private final BasketProductRepository basketProductRepository;
+    private final PurchaseRepository purchaseRepository;
 
     public MemberInfo findMemberInfoById(Long id) {
 
         Member member = memberRepository.findById(id)
-                                        .orElseThrow(() -> new NotFoundException("해당 ID를 찾을 수 없습니다."));
+                .orElseThrow(() -> new NotFoundException("해당 ID를 찾을 수 없습니다."));
 
         MemberInfo memberInfo = MemberMapper.INSTANCE.memberToMemberInfo(member);
         return memberInfo;
@@ -34,12 +38,24 @@ public class MemberMyPageService {
     }
 
 
-    public List<MyProduct> findBasketProduct(Long id) {
+    public List<MyBasketProduct> findBasketProduct(Long id) {
         Member member = memberRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("해당 ID를 찾을 수 없습니다."));
         if (member != null) {
-            List<BasketProduct> basketProducts = basketProductRepository.findMyInfoAndMyProduct(id);
-            return basketProducts.stream().map(MyProduct::new).collect(Collectors.toList());
+            List<MyBasketAndMyProduct> myBasketAndMyProducts = basketProductRepository.findMyBasketAndMyProduct(id);
+            return myBasketAndMyProducts.stream().map(MyBasketProduct::new).collect(Collectors.toList());
+        }
+        else {
+            return null;
+        }
+    }
+
+    public List<MyPurchase> findPurchaseProduct(Long id) {
+        Member member = memberRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("해당 ID를 찾을 수 없습니다."));
+        if (member != null) {
+            List<PurchaseAndProduct> purchaseAndProducts = purchaseRepository.findMyPurchases(id);
+            return purchaseAndProducts.stream().map(MyPurchase::new).collect(Collectors.toList());
         }
         else {
             return null;

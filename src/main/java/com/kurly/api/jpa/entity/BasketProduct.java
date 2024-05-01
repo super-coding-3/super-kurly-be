@@ -30,8 +30,8 @@ public class BasketProduct {
     @Column(name = "total_price")
     private Integer totalPrice;
 
-    @Column(name = "total_Amount")
-    private Integer totalAmount;
+    @Column(name = "total_amountbasket_product")
+    private Integer totalAmountBasketProduct;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "option_id")
@@ -41,7 +41,7 @@ public class BasketProduct {
         BasketProduct basketProduct=new BasketProduct();
         basketProduct.setBasket(basket);
         basketProduct.setItem(item);
-        basketProduct.setTotalAmount(amount);
+        basketProduct.setTotalAmountBasketProduct(amount);
         basketProduct.setTotalPrice(item.getPrice()*amount);
         basketProduct.setOptionId(options);
         return basketProduct;

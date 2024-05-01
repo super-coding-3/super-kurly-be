@@ -1,11 +1,11 @@
 package com.kurly.api.basket.service.impl;
 
+import com.fasterxml.jackson.databind.node.BaseJsonNode;
 import com.kurly.api.basket.model.BasketProductModel;
-import com.kurly.api.basket.model.MyCartModel;
 import com.kurly.api.basket.service.BasketService;
-import com.kurly.api.basket.util.ConverterUtil;
 import com.kurly.api.jpa.entity.*;
 import com.kurly.api.jpa.repository.*;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -48,7 +48,7 @@ public class BasketServiceImpl implements BasketService {
     }
 
     @Override
-    public void createCart(Member member,Item newItem, Integer amount, Options options) {
+    public void createCart(Member member,Item newItem, Integer amount) {
 
             //1.로그인 유무
             Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
@@ -69,21 +69,14 @@ public class BasketServiceImpl implements BasketService {
                BasketProduct basketProduct=basketProductRepository.findByBaksetIdAndItemId(basket.getBasketId(),item.getProductId());
 
                if (basketProduct==null){
-                   basketProduct = BasketProduct.createBasketItem(basket,item,amount,options);
+                   basketProduct = BasketProduct.createBasketItem(basket,item,amount);
 
                }else {
-                   if (options==null) {
-                       // 이미 있는 제품인 경우, 수량 증가
-                       int newAmount = basketProduct.getTotalAmount() + amount;
-                       int newPrice = basketProduct.getTotalPrice() * amount;
-                       basketProduct.setTotalPrice(newPrice);
-                       basketProduct.setTotalAmount(newAmount);
-                   }else{
-                       int newAmount = basketProduct.getTotalAmount() + amount;
-                       int newPrice = options.getPrice() * amount;
-                       basketProduct.setTotalAmount(newAmount);
-                       basketProduct.setTotalPrice(newPrice);
-                   }
+                   // 이미 있는 제품인 경우, 수량 증가
+                   int newAmount = basketProduct.getTotalAmountBasketProduct() + amount;
+                   int newPrice =basketProduct.getTotalPrice() *amount;
+                   basketProduct.setTotalPrice(newPrice);
+                   basketProduct.setTotalAmountBasketProduct(newAmount);
                }
 
                 // 장바구니 상품 저장

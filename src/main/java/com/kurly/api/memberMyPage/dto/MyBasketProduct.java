@@ -12,20 +12,20 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class MyProduct {
+public class MyBasketProduct {
     private Long productId;
     private String name;
-    private Integer amount;
     private Integer price;
+    private Integer amount;
 
-    public MyProduct(BasketProduct basketProduct) {
+    public MyBasketProduct(BasketProduct basketProduct) {
         this.productId = basketProduct.getItem().getProductId();
         this.name = basketProduct.getItem().getName();
         this.amount = basketProduct.getTotalAmountBasketProduct();
         this.price = basketProduct.getItem().getPrice();
     }
 
-    public MyProduct(MyBasketAndMyProduct myBasketAndMyProduct) {
+    public MyBasketProduct(MyBasketAndMyProduct myBasketAndMyProduct) {
         this.productId = myBasketAndMyProduct.getProductId();
         this.name = myBasketAndMyProduct.getName();
         this.amount = myBasketAndMyProduct.getAmount();
