@@ -48,12 +48,12 @@ public class ItemModel {
 
     private List<Options> optionName;
     @Schema(description = "제품이미지")
-    private byte[] img;
-    private byte[] descriptionImg;
+    private String img;
+    private String  descriptionImg;
     private String origin;
     private String shippingMethod;
     private String sellerName;
-    private byte[] productInformationImg;
+    private String  productInformationImg;
 
     private static DateTimeFormatter formatter=
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");

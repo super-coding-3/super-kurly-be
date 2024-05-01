@@ -35,10 +35,10 @@ public class Item {
     private LocalDateTime createAt;
 
     @Column(name = "img")
-    private byte[] img;
+    private String img;
   
     @Column(name = "description_img")
-    private byte[] descriptionImg;
+    private String descriptionImg;
 
     @OneToMany(mappedBy = "product")
     private List<Options> options;
@@ -53,7 +53,7 @@ public class Item {
     private String sellerName;
 
     @Column(name = "product_information_img")
-    private byte[] productInformationImg;
+    private String  productInformationImg;
 
 
 }
