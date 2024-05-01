@@ -89,8 +89,10 @@ public class ItemController {
 
 
     @GetMapping("/page/{id}")
-    public ItemModel findDetailItem(@PathVariable String id){
-        return itemService.findItemDetail(id);
+    public ResponseEntity<ItemModel> findDetailItem(@PathVariable String id){
+        ItemModel itemModel = itemService.findItemDetail(id);
+//        ResponseEntity<ItemModel> responseEntity =ResponseEntity.ok()
+        return ResponseEntity.ok().body(itemModel);
     }
 
 }
