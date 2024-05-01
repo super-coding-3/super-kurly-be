@@ -33,12 +33,17 @@ public class BasketProduct {
     @Column(name = "total_amountbasket_product")
     private Integer totalAmountBasketProduct;
 
-    public static BasketProduct createBasketItem(Basket basket, Item item, Integer amount) {
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "option_id")
+    private Options optionId;
+
+    public static BasketProduct createBasketItem(Basket basket, Item item, Integer amount, Options options) {
         BasketProduct basketProduct=new BasketProduct();
         basketProduct.setBasket(basket);
         basketProduct.setItem(item);
         basketProduct.setTotalAmountBasketProduct(amount);
         basketProduct.setTotalPrice(item.getPrice()*amount);
+        basketProduct.setOptionId(options);
         return basketProduct;
     }
 }

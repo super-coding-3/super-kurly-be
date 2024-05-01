@@ -32,4 +32,7 @@ public interface BasketProductRepository extends JpaRepository<BasketProduct,Lon
 
     @Query("SELECT bp FROM BasketProduct bp JOIN bp.item i WHERE bp.basket.basketId = :basketId AND i.productId = :productId  ")
     BasketProduct findByBaksetIdAndItemId(Long basketId, Long productId);
+
+    @Query("SELECT bp FROM BasketProduct bp WHERE bp.basket.member.memberId= :memberId")
+    List<BasketProduct> findByMemberId(Long memberId);
 }
