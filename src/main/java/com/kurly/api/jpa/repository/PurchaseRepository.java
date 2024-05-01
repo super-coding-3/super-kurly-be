@@ -1,8 +1,12 @@
 package com.kurly.api.jpa.repository;
 
 import com.kurly.api.jpa.entity.Purchase;
+import com.kurly.api.jpa.entity.PurchaseAndProduct;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * packageName    : com.kurly.api.jpa.repository
@@ -17,4 +21,9 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface PurchaseRepository extends JpaRepository<Purchase,Long> {
+    @Query("SELECT new com.kurly.api.jpa.entity.PurchaseAndProduct(i.productId, i.name, i.price, p.purchaseDate) " +
+            "FROM Purchase p " +
+            "JOIN p.item i " +
+            "WHERE p.member = :id ")
+    List<PurchaseAndProduct> findMyPurchases(Long id);
 }

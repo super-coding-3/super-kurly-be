@@ -30,14 +30,14 @@ public class BasketProduct {
     @Column(name = "total_price")
     private Integer totalPrice;
 
-    @Column(name = "total_Amount")
-    private Integer totalAmount;
+    @Column(name = "total_amountbasket_product")
+    private Integer totalAmountBasketProduct;
 
     public static BasketProduct createBasketItem(Basket basket, Item item, Integer amount) {
         BasketProduct basketProduct=new BasketProduct();
         basketProduct.setBasket(basket);
         basketProduct.setItem(item);
-        basketProduct.setTotalAmount(amount);
+        basketProduct.setTotalAmountBasketProduct(amount);
         basketProduct.setTotalPrice(item.getPrice()*amount);
         return basketProduct;
     }

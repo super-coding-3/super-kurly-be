@@ -73,10 +73,10 @@ public class BasketServiceImpl implements BasketService {
 
                }else {
                    // 이미 있는 제품인 경우, 수량 증가
-                   int newAmount = basketProduct.getTotalAmount() + amount;
+                   int newAmount = basketProduct.getTotalAmountBasketProduct() + amount;
                    int newPrice =basketProduct.getTotalPrice() *amount;
                    basketProduct.setTotalPrice(newPrice);
-                   basketProduct.setTotalAmount(newAmount);
+                   basketProduct.setTotalAmountBasketProduct(newAmount);
                }
 
                 // 장바구니 상품 저장
