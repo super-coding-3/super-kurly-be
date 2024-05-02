@@ -50,7 +50,7 @@ public class BasketController {
    @PostMapping("/order")
    public String orderProduct(@RequestBody BasketProductModel basketProductModel) {return null;}
 
-   @PostMapping("/{item_id}/{amount}")
+   @PostMapping("add/{item_id}/{amount}")
    @Operation(summary = "장바구니 담기")
    public void itemBasket(@PathVariable("item_id") Long itemId,
                           @PathVariable("amount") Integer amount,

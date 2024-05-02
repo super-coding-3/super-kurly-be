@@ -13,6 +13,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ItemAllPage {
+//    @Schema(description = "제품 아이디")
+//    private Long productId;
     @Schema(description = "제품 이름")
     private String name;
     @Schema(description = "제품 가격")

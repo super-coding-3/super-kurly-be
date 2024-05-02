@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.time.Instant;
+import java.util.List;
 
 import com.kurly.api.item.model.ItemAllPage;
 import com.kurly.api.item.service.ItemService;
@@ -126,12 +127,18 @@ public class ItemController {
         return ResponseEntity.ok().body(page);
     }
 
+    @GetMapping("/best")
+    @Operation(summary = "오늘의 상품")
+    public ResponseEntity<List<ItemAllPage>> findAllItem(){
+        List<ItemAllPage> randomItems =itemService.getRandomItems(2);
+        return ResponseEntity.ok(randomItems);
+    }
+
 
     @GetMapping("/page/{id}")
     @Operation(summary = "제품 상세페이지")
     public ResponseEntity<ItemModel> findDetailItem(@PathVariable String id){
         ItemModel itemModel = itemService.findItemDetail(id);
-//        ResponseEntity<ItemModel> responseEntity =ResponseEntity.ok()
         return ResponseEntity.ok().body(itemModel);
     }
 
