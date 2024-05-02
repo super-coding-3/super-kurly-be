@@ -178,6 +178,32 @@ public class ItemServiceImpl implements ItemService {
             return itemModel;
         }
 
+    @Override
+    public List<ItemAllPage> getRandomItems(int count) {
+        List<Item> allItems =itemRepository.findAll();
+        int totalItems =allItems.size();
+
+        Random random =new Random();
+
+        List<ItemAllPage> randomItems= new ArrayList<>();
+
+        for (int i = 0; i < count; i++) {
+            int randomIndex = random.nextInt(totalItems); // 0부터 totalItems-1까지 랜덤 인덱스 생성
+            Item randomItem = allItems.get(randomIndex); // 랜덤으로 선택된 상품 가져오기
+
+            ItemAllPage allPage = new ItemAllPage();
+            allPage.setName(randomItem.getName());
+            allPage.setPrice(randomItem.getPrice());
+            allPage.setDescription(randomItem.getDescription());
+            allPage.setImg(randomItem.getImg());
+
+            // ItemModel을 리스트에 추가
+            randomItems.add(allPage);
+        }
+
+        return randomItems;
+    }
+
     private String uploadImage(Long productId, MultipartFile image, Instant date) {
         try {
             String directory = createDirectory(date, productId);
