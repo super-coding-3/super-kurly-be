@@ -49,10 +49,15 @@ public class ItemModel {
     private List<OptionModel> optionName;
     @Schema(description = "제품이미지")
     private String img;
+    @Schema(description = "제품 설명 이미지")
     private String  descriptionImg;
+    @Schema(description = "원산지")
     private String origin;
+    @Schema(description = "배송 방법")
     private String shippingMethod;
+    @Schema(description = "판매자")
     private String sellerName;
+    @Schema(description = "제품 상세설명이미지")
     private String  productInformationImg;
 
     private static DateTimeFormatter formatter=
