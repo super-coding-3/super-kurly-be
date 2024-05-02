@@ -27,7 +27,7 @@ public class MemberMyPageController {
     private final MemberMyPageService memberMyPageService;
 
     @GetMapping("/info/{id}")
-    @Operation(summary = "내 정보 조회")
+    @Operation(summary = "member_id로 내 정보 조회")
     public ResponseEntity<?> findMyInfo(@PathVariable Long id) {
         try {
             MemberInfo memberInfo = memberMyPageService.findMemberInfoById(id);
@@ -40,7 +40,7 @@ public class MemberMyPageController {
     }
 
     @GetMapping("/basket/{id}")
-    @Operation(summary = "내 장바구니 목록 조회")
+    @Operation(summary = "member_id로 내 장바구니 목록 조회")
     public ResponseEntity<?> findMyBasket(@PathVariable Long id) {
         try {
             List<MyBasketProduct> myBasketProducts = memberMyPageService.findBasketProduct(id);
@@ -52,7 +52,7 @@ public class MemberMyPageController {
     }
 
     @GetMapping("/purchase/{id}")
-    @Operation(summary = "내 구매 목록 조회")
+    @Operation(summary = "member_id로 내 구매 목록 조회")
     public ResponseEntity<?> findMyPurchase(@PathVariable Long id) {
         try {
             List<MyPurchase> myPurchases = memberMyPageService.findPurchaseProduct(id);
