@@ -69,22 +69,17 @@ public class BasketServiceImpl implements BasketService {
                 basketRepository.save(basket);
             }
             Item item= itemRepository.findItemByID(newItem.getProductId());
-            BasketProduct basketProduct=basketProductRepository.findByBaksetIdAndItemId(basket.getBasketId(),item.getProductId());
 
-            if (basketProduct==null){
-                basketProduct = BasketProduct.createBasketItem(basket,item,amount,options);
+            BasketProduct  basketProduct = BasketProduct.createBasketItem(basket,item,amount,options);
 
-            }else {
-                // 이미 있는 제품인 경우, 수량 증가
-                int newAmount = basketProduct.getTotalAmount() + amount;
-                basketProduct.setTotalAmount(newAmount);
                 if(options ==null) {
                     int newPrice = basketProduct.getTotalPrice() * amount;
                     basketProduct.setTotalPrice(newPrice);
                 }else{
                     int newPrice = options.getPrice() * amount;
                     basketProduct.setTotalPrice(newPrice);
-                }
+                    basketProduct.setOptionId(options);
+//                }
             }
 
             // 장바구니 상품 저장

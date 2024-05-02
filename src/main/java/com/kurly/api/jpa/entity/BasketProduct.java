@@ -42,8 +42,11 @@ public class BasketProduct {
         basketProduct.setBasket(basket);
         basketProduct.setItem(item);
         basketProduct.setTotalAmount(amount);
-        basketProduct.setTotalPrice(item.getPrice()*amount);
-        basketProduct.setOptionId(options);
+        if (options !=null){
+            basketProduct.setTotalPrice(options.getPrice());
+        }else {
+            basketProduct.setTotalPrice(item.getPrice());
+        }
         return basketProduct;
     }
 }
