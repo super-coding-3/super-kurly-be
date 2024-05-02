@@ -18,7 +18,7 @@ public class ConverterUtil {
         myCartModel.setName(basketProduct.getOptionId().getTitle());
         myCartModel.setDescription(basketProduct.getItem().getDescription());
         myCartModel.setAmount(basketProduct.getTotalPrice());
-        myCartModel.setImg(basketProduct.getItem().getImg());
+    //    myCartModel.setImg(basketProduct.getItem().getImg());
         myCartModel.setPrice(basketProduct.getTotalPrice());
         
         return myCartModel;
