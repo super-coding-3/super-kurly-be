@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -44,13 +45,13 @@ import org.springframework.web.multipart.MultipartFile;
 public class ItemController {
     private final ItemService itemService;
 
-    @PostMapping("/posts")
+    @PostMapping(value = "/posts",consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     @Operation(summary = "물품등록")
     public ResponseEntity<?> registerItem(
             @RequestPart("postRq" ) @Valid ItemPostRequestDto dto,
-            @RequestPart("image") MultipartFile imageMultipartFile,
-            @RequestPart("descriptionImage") MultipartFile descriptionImageMultipartFile,
-            @RequestPart("productInformationImage") MultipartFile productInformationImageMultipartFile
+            @RequestPart(value = "image",required = false) MultipartFile imageMultipartFile,
+            @RequestPart(value = "descriptionImage",required = false) MultipartFile descriptionImageMultipartFile,
+            @RequestPart(value = "productInformationImage",required = false) MultipartFile productInformationImageMultipartFile
     ) {
         log.info("POST/item 등록요청이 들어왔습니다.");
         Item entity = dto.toEntity(Instant.now());
