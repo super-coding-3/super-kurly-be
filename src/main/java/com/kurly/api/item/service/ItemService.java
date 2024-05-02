@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.Instant;
+import java.util.List;
 
 /**
  * packageName    : com.kurly.api.item.service
@@ -37,4 +38,5 @@ public interface ItemService {
     Page<ItemAllPage> findAllWithPageable(Pageable pageable);
     ItemModel findItemDetail(String id);
 
+    List<ItemAllPage> getRandomItems(int i);
 }
