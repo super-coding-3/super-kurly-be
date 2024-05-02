@@ -29,7 +29,7 @@ public class ItemPostRequestDto {
     private final String description;
 
     @Schema(description = "옵션" ,example = "강원도딸기")
-    private final List<Options> optionName;
+    private final String optionName;
 
     @Schema(description = "원산지" ,example = "국내산")
     private final String origin;
@@ -54,7 +54,7 @@ public class ItemPostRequestDto {
             @NotBlank
             @Size(max = 150)
             String description,
-            List<Options> optionName,
+            String optionName,
             @NotBlank
             String origin,
             @NotBlank
