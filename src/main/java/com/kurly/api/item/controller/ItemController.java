@@ -74,7 +74,7 @@ public class ItemController {
 
     @PostMapping(value = "/createItem",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "물품등록 2")
-    public ResponseEntity<?> createItem(@RequestPart ItemRqModel model,
+    public ResponseEntity<?> createItem(@RequestPart(value = "model") ItemRqModel model,
                                         @RequestPart(value = "imgFile",required = false) MultipartFile imgFile,
                                         @RequestPart(value = "descriptionImgFile",required = false) MultipartFile descriptionImgFile,
                                         @RequestPart(value = "productInformationImgFile",required = false) MultipartFile productInformationImgFile) {
