@@ -2,6 +2,7 @@ package com.kurly.api.jpa.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,7 +23,7 @@ public class Item {
     @Column(name = "name", length = 30)
     private String name;
 
-    @Column(name = "amount")
+    @Column(name = "amount" )
     private Integer amount;
 
     @Column(name = "price")

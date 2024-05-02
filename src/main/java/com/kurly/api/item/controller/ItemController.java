@@ -45,7 +45,7 @@ public class ItemController {
     @PostMapping("/posts")
     @Operation(summary = "물품등록")
     public ResponseEntity<?> registerItem(
-            @ModelAttribute @Valid ItemPostRequestDto dto,
+            @ModelAttribute(value = "postRq" ) @Valid ItemPostRequestDto dto,
             @RequestPart("image") MultipartFile imageMultipartFile,
             @RequestPart("descriptionImage") MultipartFile descriptionImageMultipartFile,
             @RequestPart("productInformationImage") MultipartFile productInformationImageMultipartFile
@@ -61,8 +61,18 @@ public class ItemController {
         String productInformationImageUrl = itemService.saveProductInformationImage(savedEntity, productInformationImageMultipartFile, now);
         itemService.save(savedEntity);
 
+
+
         ItemImagePostResponseDto response = ItemImagePostResponseDto.builder()
                 .productId(savedEntity.getProductId())
+                .name(savedEntity.getName())
+                .amount(savedEntity.getAmount())
+                .price(savedEntity.getPrice())
+                .description(savedEntity.getDescription())
+               // .optionName(savedEntity.getOptions())
+                .origin(savedEntity.getOrigin())
+                .shippingMethod(savedEntity.getShippingMethod())
+                .sellerName(savedEntity.getSellerName())
                 .url(imageUrl)
                 .descriptionImageUrl(descriptionImageUrl)
                 .productInformationImageUrl(productInformationImageUrl)

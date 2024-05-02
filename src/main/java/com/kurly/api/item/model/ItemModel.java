@@ -74,7 +74,7 @@ public class ItemModel {
 //        this.img = item.getImg();
 //    }
 
-    public static ItemModel toEntity(Item item){
+    public static ItemModel itemEntity(Item item ){
         return ItemModel.builder()
                 .productId(item.getProductId())
                 .name(item.getName())
@@ -83,7 +83,7 @@ public class ItemModel {
                 .description(item.getDescription())
                 .createAt(item.getCreateAt())
                 .img(item.getImg())
-               // .optionName(item.getOptions())
+              //  .optionName(item.getOptions())
                 .descriptionImg(item.getDescriptionImg())
                 .origin(item.getOrigin())
                 .shippingMethod(item.getShippingMethod())

@@ -46,7 +46,7 @@ public class ItemPostRequestDto {
             @NotBlank
             String name,
             @NotNull
-            @Min(0)
+           // @Min(0)
             Integer amount,
             @NotNull
             @Min(0)
@@ -63,11 +63,11 @@ public class ItemPostRequestDto {
             String sellerName
 
     ) {
-        name = name.strip(); //strip() 유니코드상에서 공백으로 보이는 모든 것을 문자열 앞뒤에선 제외
-        description = description.strip();
-        origin = origin.strip();
-        shippingMethod = shippingMethod.strip();
-        sellerName = sellerName.strip();
+       // name = name.strip(); //strip() 유니코드상에서 공백으로 보이는 모든 것을 문자열 앞뒤에선 제외
+       // description = description.strip();
+       // origin = origin.strip();
+       // shippingMethod = shippingMethod.strip();
+       // sellerName = sellerName.strip();
 
         this.name = name;
         this.amount = amount;
@@ -80,19 +80,6 @@ public class ItemPostRequestDto {
 
     }
 
-    public Item toEntity() {
-        return Item.builder()
-                .name(getName())
-                .amount(getAmount())
-                .price(getPrice())
-                .description(getDescription())
-                .options(getOptionName())
-                .origin(getOrigin())
-                .shippingMethod(getShippingMethod())
-                .sellerName(getSellerName())
-                .createAt(LocalDateTime.now(ZoneId.of("Asia/Seoul")))
-                .build();
-    }
 
     public Item toEntity(Instant createAt) {
         LocalDateTime convertedCreateAt = LocalDateTime.ofInstant(
@@ -106,7 +93,6 @@ public class ItemPostRequestDto {
                 .price(getPrice())
                 .description(getDescription())
                 .createAt(convertedCreateAt)
-                //.options(getOptionName())
                 .origin(getOrigin())
                 .shippingMethod(getShippingMethod())
                 .sellerName(getSellerName())
