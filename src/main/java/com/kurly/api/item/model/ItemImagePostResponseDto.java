@@ -6,5 +6,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 
 @Builder
-public record ItemImagePostResponseDto(Long productId, String url, String descriptionImageUrl, String productInformationImageUrl){
+public record ItemImagePostResponseDto(
+        Long productId,String name, Integer amount,
+        Integer price, String description,
+        String optionName,String origin ,
+        String shippingMethod, String sellerName,
+        String url, String descriptionImageUrl,
+        String productInformationImageUrl){
 }

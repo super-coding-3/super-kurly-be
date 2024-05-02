@@ -83,7 +83,7 @@ public class ItemServiceImpl implements ItemService {
     public ItemModel getItemById(Long itemId) {
         Item item = itemRepository.findById(itemId)
                 .orElseThrow(() -> new CustomException(ErrorCode.ITEM_NOT_FOUND));
-        return ItemModel.toEntity(item);
+        return ItemModel.itemEntity(item);
 
     }
 
@@ -93,7 +93,7 @@ public class ItemServiceImpl implements ItemService {
             Item item = optionalItem.get();
             item.setAmount(newAmount);
             itemRepository.save(item);
-            return ItemModel.toEntity(item);
+            return ItemModel.itemEntity(item);
         } else {
             throw new CustomException(ErrorCode.ITEM_NOT_FOUND);
         }
