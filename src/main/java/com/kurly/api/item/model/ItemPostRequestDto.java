@@ -43,10 +43,10 @@ public class ItemPostRequestDto {
 
     @Builder
     public ItemPostRequestDto(
-            @NotBlank
+           // @NotBlank
             String name,
             @NotNull
-           // @Min(0)
+            @Min(0)
             Integer amount,
             @NotNull
             @Min(0)
@@ -63,11 +63,17 @@ public class ItemPostRequestDto {
             String sellerName
 
     ) {
-       // name = name.strip(); //strip() 유니코드상에서 공백으로 보이는 모든 것을 문자열 앞뒤에선 제외
-       // description = description.strip();
-       // origin = origin.strip();
-       // shippingMethod = shippingMethod.strip();
-       // sellerName = sellerName.strip();
+//        if (name == null) name = "";
+//        if (description == null) description = "";
+//        if (origin == null) origin = "";
+//        if (shippingMethod == null) shippingMethod = "";
+//        if (sellerName == null) sellerName = "";
+//
+//        name = name.strip(); //strip() 유니코드상에서 공백으로 보이는 모든 것을 문자열 앞뒤에선 제외
+//        description = description.strip();
+//        origin = origin.strip();
+//        shippingMethod = shippingMethod.strip();
+//        sellerName = sellerName.strip();
 
         this.name = name;
         this.amount = amount;
@@ -77,7 +83,6 @@ public class ItemPostRequestDto {
         this.origin = origin;
         this.shippingMethod = shippingMethod;
         this.sellerName = sellerName;
-
     }
 
 

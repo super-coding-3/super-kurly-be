@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import java.time.Instant;
 
@@ -45,7 +46,7 @@ public class ItemController {
     @PostMapping("/posts")
     @Operation(summary = "물품등록")
     public ResponseEntity<?> registerItem(
-            @ModelAttribute(value = "postRq" ) @Valid ItemPostRequestDto dto,
+            @RequestPart("postRq" ) @Valid ItemPostRequestDto dto,
             @RequestPart("image") MultipartFile imageMultipartFile,
             @RequestPart("descriptionImage") MultipartFile descriptionImageMultipartFile,
             @RequestPart("productInformationImage") MultipartFile productInformationImageMultipartFile
@@ -56,26 +57,13 @@ public class ItemController {
 
         //이미지 업로드
         Instant now = Instant.now();
-        String imageUrl = itemService.saveImage(savedEntity, imageMultipartFile, now);
-        String descriptionImageUrl = itemService.saveDescriptionImage(savedEntity, descriptionImageMultipartFile, now);
-        String productInformationImageUrl = itemService.saveProductInformationImage(savedEntity, productInformationImageMultipartFile, now);
+        itemService.saveImage(savedEntity, imageMultipartFile, now);
+        itemService.saveDescriptionImage(savedEntity, descriptionImageMultipartFile, now);
+        itemService.saveProductInformationImage(savedEntity, productInformationImageMultipartFile, now);
         itemService.save(savedEntity);
 
-
-
         ItemImagePostResponseDto response = ItemImagePostResponseDto.builder()
-                .productId(savedEntity.getProductId())
-                .name(savedEntity.getName())
-                .amount(savedEntity.getAmount())
-                .price(savedEntity.getPrice())
-                .description(savedEntity.getDescription())
-               // .optionName(savedEntity.getOptions())
-                .origin(savedEntity.getOrigin())
-                .shippingMethod(savedEntity.getShippingMethod())
-                .sellerName(savedEntity.getSellerName())
-                .url(imageUrl)
-                .descriptionImageUrl(descriptionImageUrl)
-                .productInformationImageUrl(productInformationImageUrl)
+                .savedEntity(savedEntity)
                 .build();
 
         return ResponseEntity.ok(response);
