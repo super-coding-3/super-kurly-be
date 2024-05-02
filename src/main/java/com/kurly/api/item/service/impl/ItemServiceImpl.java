@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoField;
 import java.util.*;
@@ -46,40 +47,35 @@ public class ItemServiceImpl implements ItemService {
     private final S3Uploader s3Uploader;
 
     @Override
-    public String saveImage(Long productId, MultipartFile image) {
-        try {
-//            Instant now = Instant.now();
-//            int year = now.get(ChronoField.YEAR);
-//            int month = now.get(ChronoField.MONTH_OF_YEAR);
-//            int date = now.get(ChronoField.DAY_OF_MONTH);
-//            UUID uuid = UUID.randomUUID();
-//            String directory = MessageFormat.format("{0}/{1}/{2}/{3}" ,year, month ,date, uuid);
-            String directory  =LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-            String fileUrl = s3Uploader.upload(image,directory);
-
-            Item item = itemRepository.findById(productId)
-                    .orElseThrow(()-> new CustomException(ErrorCode.ITEM_NOT_FOUND));
-            item.setImg(fileUrl);
-            item.setDescriptionImg(fileUrl);
-            item.setProductInformationImg(fileUrl);
-            itemRepository.save(item);
-
-            return fileUrl;
-
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
     public Item save(Item item) {
         boolean exists = itemRepository.existsByName(item.getName());
 
-        if (exists) {
+        if (exists && item.getProductId() == null) {
             throw new CustomException(ErrorCode.DUPLICATED_ITEM_NAME);
         }
-       return itemRepository.save(item);
+
+        return itemRepository.save(item);
+    }
+
+    @Override
+    public String saveImage(Item item, MultipartFile image, Instant date) {
+        String fileUrl = uploadImage(item.getProductId(), image, date);
+        item.setImg(fileUrl);
+        return fileUrl;
+    }
+
+    @Override
+    public String saveDescriptionImage(Item item, MultipartFile image, Instant date) {
+        String fileUrl = uploadImage(item.getProductId(), image, date);
+        item.setDescriptionImg(fileUrl);
+        return fileUrl;
+    }
+
+    @Override
+    public String saveProductInformationImage(Item item, MultipartFile image, Instant date) {
+        String fileUrl = uploadImage(item.getProductId(), image, date);
+        item.setProductInformationImg(fileUrl);
+        return fileUrl;
     }
 
     //조회
@@ -135,7 +131,7 @@ public class ItemServiceImpl implements ItemService {
                 ItemAllPage itemModel = new ItemAllPage();
                 itemModel.setName(itemName);
                 itemModel.setAmount(totalAmount);
-                //itemModel.setImg(image);
+                itemModel.setImg(image);
                 itemModel.setDescription(description);
 
                 // 가격은 원래 가격을 그대로 사용
@@ -182,7 +178,24 @@ public class ItemServiceImpl implements ItemService {
             return itemModel;
         }
 
-    private ItemRp sameItemName(String name) {
-        return itemRepository.findByName(name);
+    private String uploadImage(Long productId, MultipartFile image, Instant date) {
+        try {
+            String directory = createDirectory(date, productId);
+            return s3Uploader.upload(image, directory);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private String createDirectory(Instant date, Long productId) {
+        String formattedDate = DateTimeFormatter.ofPattern("yyyyMMdd")
+                .withZone(ZoneOffset.UTC)
+                .format(date);
+
+        return MessageFormat.format(
+                "product/{0}/{1}",
+                formattedDate,
+                productId
+        );
     }
     }

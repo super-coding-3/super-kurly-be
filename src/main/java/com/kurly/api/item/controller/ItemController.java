@@ -13,9 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.time.Instant;
-import java.time.LocalDate;
-import java.util.Collections;
-import java.util.concurrent.locks.ReadWriteLock;
 
 import com.kurly.api.item.model.ItemAllPage;
 import com.kurly.api.item.service.ItemService;
@@ -24,7 +21,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -49,33 +45,45 @@ public class ItemController {
     @PostMapping("/posts")
     @Operation(summary = "물품등록")
     public ResponseEntity<?> registerItem(
-            @ModelAttribute(value = "dto") @Valid ItemPostRequestDto dto,
-            @RequestPart("image") MultipartFile imageMultipartFile
+            @ModelAttribute @Valid ItemPostRequestDto dto,
+            @RequestPart("image") MultipartFile imageMultipartFile,
+            @RequestPart("descriptionImage") MultipartFile descriptionImageMultipartFile,
+            @RequestPart("productInformationImage") MultipartFile productInformationImageMultipartFile
     ) {
         log.info("POST/item 등록요청이 들어왔습니다.");
         Item entity = dto.toEntity(Instant.now());
-        itemService.save(entity);
+        Item savedEntity = itemService.save(entity);
+
         //이미지 업로드
-        String imageUrl = itemService.saveImage(entity.getProductId() , imageMultipartFile);
+        Instant now = Instant.now();
+        String imageUrl = itemService.saveImage(savedEntity, imageMultipartFile, now);
+        String descriptionImageUrl = itemService.saveDescriptionImage(savedEntity, descriptionImageMultipartFile, now);
+        String productInformationImageUrl = itemService.saveProductInformationImage(savedEntity, productInformationImageMultipartFile, now);
+        itemService.save(savedEntity);
 
-        ItemImagePostResponseDto response = new ItemImagePostResponseDto(imageUrl);
-
-        return ResponseEntity.ok(response);
-    }
-
-    @PostMapping("{id}/image")
-    @Operation(summary = "물품 이미지 등록")
-    public ResponseEntity<?> registerItem(
-            @PathVariable Long id,
-            @RequestParam("image") MultipartFile imageMultipartFile
-    ) {
-        log.info("POST/물품 image 등록요청이 들어왔습니다.");
-        String imageUrl = itemService.saveImage(id, imageMultipartFile);
-
-        ItemImagePostResponseDto response = new ItemImagePostResponseDto(imageUrl);
+        ItemImagePostResponseDto response = ItemImagePostResponseDto.builder()
+                .productId(savedEntity.getProductId())
+                .url(imageUrl)
+                .descriptionImageUrl(descriptionImageUrl)
+                .productInformationImageUrl(productInformationImageUrl)
+                .build();
 
         return ResponseEntity.ok(response);
     }
+
+//    @PostMapping("{id}/image")
+//    @Operation(summary = "물품 이미지 등록")
+//    public ResponseEntity<?> registerItem(
+//            @PathVariable Long id,
+//            @RequestParam("image") MultipartFile imageMultipartFile
+//    ) {
+//        log.info("POST/물품 image 등록요청이 들어왔습니다.");
+//        String imageUrl = itemService.saveImage(id, imageMultipartFile);
+//
+//        ItemImagePostResponseDto response = new ItemImagePostResponseDto(imageUrl);
+//
+//        return ResponseEntity.ok(response);
+//    }
 
     @GetMapping("/{id}")
     @Operation(summary = "물품조회")

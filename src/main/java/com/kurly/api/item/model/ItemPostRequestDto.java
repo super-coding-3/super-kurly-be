@@ -40,7 +40,6 @@ public class ItemPostRequestDto {
     @Schema(description = "판매자" ,example = "KIM")
     private final String sellerName;
 
-    private final MultipartFile imageMultipartFile;
 
     @Builder
     public ItemPostRequestDto(
@@ -61,9 +60,8 @@ public class ItemPostRequestDto {
             @NotBlank
             String shippingMethod,
             @NotBlank
-            String sellerName,
-            @NotNull
-            MultipartFile imageMultipartFile
+            String sellerName
+
     ) {
         name = name.strip(); //strip() 유니코드상에서 공백으로 보이는 모든 것을 문자열 앞뒤에선 제외
         description = description.strip();
@@ -79,7 +77,7 @@ public class ItemPostRequestDto {
         this.origin = origin;
         this.shippingMethod = shippingMethod;
         this.sellerName = sellerName;
-        this.imageMultipartFile = imageMultipartFile;
+
     }
 
     public Item toEntity() {
