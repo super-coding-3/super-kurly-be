@@ -21,9 +21,8 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoField;
 import java.util.*;
 
 /**
@@ -45,6 +44,33 @@ public class ItemServiceImpl implements ItemService {
     private final OptionRepository optionRepository;
 
     private final S3Uploader s3Uploader;
+
+    @Override
+    public String saveImage(Long productId, MultipartFile image) {
+        try {
+//            Instant now = Instant.now();
+//            int year = now.get(ChronoField.YEAR);
+//            int month = now.get(ChronoField.MONTH_OF_YEAR);
+//            int date = now.get(ChronoField.DAY_OF_MONTH);
+//            UUID uuid = UUID.randomUUID();
+//            String directory = MessageFormat.format("{0}/{1}/{2}/{3}" ,year, month ,date, uuid);
+            String directory  =LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+            String fileUrl = s3Uploader.upload(image,directory);
+
+            Item item = itemRepository.findById(productId)
+                    .orElseThrow(()-> new CustomException(ErrorCode.ITEM_NOT_FOUND));
+            item.setImg(fileUrl);
+            item.setDescriptionImg(fileUrl);
+            item.setProductInformationImg(fileUrl);
+            itemRepository.save(item);
+
+            return fileUrl;
+
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @Override
     public Item save(Item item) {
@@ -98,84 +124,85 @@ public class ItemServiceImpl implements ItemService {
             throw new CustomException(ErrorCode.ITEM_NOT_FOUND);
         }
     }
-    @Override
-    public Page<ItemAllPage> findAllWithPageable (Pageable pageable){
-        Page<Item> items = itemRepository.findAll(pageable);
-        Map<String, Integer> totalAmounts = new HashMap<>();
-        Map<String, byte[]> firstImageMap = new HashMap<>();
-        Map<String, String> descriptionMap = new HashMap<>();
+        @Override
+        public Page<ItemAllPage> findAllWithPageable (Pageable pageable){
+            Page<Item> items = itemRepository.findAll(pageable);
+            Map<String, Integer> totalAmounts = new HashMap<>();
+            Map<String, String> firstImageMap = new HashMap<>();
+            Map<String, String> descriptionMap = new HashMap<>();
 
 
-        for (Item item : items) {
+            for (Item item : items) {
 
-            if (item.getAmount() != 0) {
-                String itemName = item.getName();
-                int currentAmount = totalAmounts.getOrDefault(itemName, 0);
-                totalAmounts.put(itemName, currentAmount + item.getAmount());
+                if (item.getAmount() != 0) {
+                    String itemName = item.getName();
+                    int currentAmount = totalAmounts.getOrDefault(itemName, 0);
+                    totalAmounts.put(itemName, currentAmount + item.getAmount());
 
-                // 이미지 맵에 해당 제품의 이미지가 없는 경우에만 추가
-                firstImageMap.putIfAbsent(itemName, item.getImg());
+                    // 이미지 맵에 해당 제품의 이미지가 없는 경우에만 추가
+                    firstImageMap.putIfAbsent(itemName, item.getImg());
 
-                // 설명 맵에 해당 제품의 설명이 없는 경우에만 추가
-                descriptionMap.putIfAbsent(itemName, item.getDescription());
-            }
-        }
-
-        List<ItemAllPage> itemModels = new ArrayList<>();
-        for (Map.Entry<String, Integer> entry : totalAmounts.entrySet()) {
-            String itemName = entry.getKey();
-            int totalAmount = entry.getValue();
-            Byte[] image = firstImageMap.get(itemName);
-            String description = descriptionMap.get(itemName);
-
-            ItemAllPage itemModel = new ItemAllPage();
-            itemModel.setName(itemName);
-            itemModel.setAmount(totalAmount);
-            itemModel.setImg(image);
-            itemModel.setDescription(description);
-
-            // 가격은 원래 가격을 그대로 사용
-            Item item = items.stream().filter(i -> i.getName().equals(itemName)).findFirst().orElse(null);
-            if (item != null) {
-                itemModel.setPrice(item.getPrice());
+                    // 설명 맵에 해당 제품의 설명이 없는 경우에만 추가
+                    descriptionMap.putIfAbsent(itemName, item.getDescription());
+                }
             }
 
-            itemModels.add(itemModel);
+            List<ItemAllPage> itemModels = new ArrayList<>();
+            for (Map.Entry<String, Integer> entry : totalAmounts.entrySet()) {
+                String itemName = entry.getKey();
+                int totalAmount = entry.getValue();
+                String image = firstImageMap.get(itemName);
+                String description = descriptionMap.get(itemName);
+
+                ItemAllPage itemModel = new ItemAllPage();
+                itemModel.setName(itemName);
+                itemModel.setAmount(totalAmount);
+                //itemModel.setImg(image);
+                itemModel.setDescription(description);
+
+                // 가격은 원래 가격을 그대로 사용
+                Item item = items.stream().filter(i -> i.getName().equals(itemName)).findFirst().orElse(null);
+                if (item != null) {
+                    itemModel.setPrice(item.getPrice());
+                }
+
+                itemModels.add(itemModel);
+            }
+
+            return new PageImpl<>(itemModels, pageable, itemModels.size());
+
         }
+        @Override
+        public ItemModel findItemDetail (String id){
 
-        return new PageImpl<>(itemModels, pageable, itemModels.size());
+            Integer productId = Integer.parseInt(id);
+            Item item = itemRepository.findById(Long.valueOf(productId)).orElseThrow(
+                    () -> new IllegalArgumentException("해당 제품은 없습니다."));
 
-    }
-    @Override
-    public ItemModel findItemDetail (String id) {
-        Integer productId = Integer.parseInt(id);
-        Item item = itemRepository.findById(Long.valueOf(productId)).orElseThrow(
-                () -> new IllegalArgumentException("해당 제품은 없습니다."));
+            ItemModel itemModel = new ItemModel();
+            itemModel.setName(item.getName());
+            itemModel.setDescription(item.getDescription());
+            itemModel.setPrice(item.getPrice());
+            itemModel.setImg(item.getImg());
+            itemModel.setDescriptionImg(item.getDescriptionImg());
+            itemModel.setAmount(item.getAmount());
+            itemModel.setOrigin(item.getOrigin());
+            itemModel.setShippingMethod(item.getShippingMethod());
+            itemModel.setSellerName(item.getSellerName());
+            itemModel.setProductInformationImg(item.getProductInformationImg());
 
-        ItemModel itemModel = new ItemModel();
-        itemModel.setName(item.getName());
-        itemModel.setDescription(item.getDescription());
-        itemModel.setPrice(item.getPrice());
-        itemModel.setImg(item.getImg());
-        itemModel.setDescriptionImg(item.getDescriptionImg());
-        itemModel.setAmount(item.getAmount());
-        itemModel.setOrigin(item.getOrigin());
-        itemModel.setShippingMethod(item.getShippingMethod());
-        itemModel.setSellerName(item.getSellerName());
-        itemModel.setProductInformationImg(item.getProductInformationImg());
+            List<Options> options= optionRepository.findByProductId(productId);
+            List<OptionModel> optionModels =new ArrayList<>();
+            for (Options option :options){
+                    OptionModel optionModel = new OptionModel();
+                    optionModel.setPrice(option.getPrice());
+                    optionModel.setTitle(option.getTitle());
+                    optionModels.add(optionModel);
+            }
 
-        List<Options> options= optionRepository.findByProductId(productId);
-        List<OptionModel> optionModels =new ArrayList<>();
-        for (Options option :options){
-            OptionModel optionModel = new OptionModel();
-            optionModel.setPrice(option.getPrice());
-            optionModel.setTitle(option.getTitle());
-            optionModels.add(optionModel);
+            itemModel.setOptionName(optionModels);
+            return itemModel;
         }
-
-        itemModel.setOptionName(optionModels);
-        return itemModel;
-    }
 
     private String uploadImage(Long productId, MultipartFile image, Instant date) {
         try {
@@ -197,4 +224,4 @@ public class ItemServiceImpl implements ItemService {
                 productId
         );
     }
-}
+    }

@@ -110,6 +110,7 @@ public class ItemController {
     }
 
     @GetMapping("/page")
+    @Operation(summary = "물품 전체 페이지 pagenation 으로 구현")
     public ResponseEntity<Page<ItemAllPage>> findAllItemPagination(@PageableDefault(size = 10)Pageable pageable){
         Page<ItemAllPage> page = itemService.findAllWithPageable(pageable);
         return ResponseEntity.ok().body(page);
@@ -117,6 +118,7 @@ public class ItemController {
 
 
     @GetMapping("/page/{id}")
+    @Operation(summary = "제품 상세페이지")
     public ResponseEntity<ItemModel> findDetailItem(@PathVariable String id){
         ItemModel itemModel = itemService.findItemDetail(id);
 //        ResponseEntity<ItemModel> responseEntity =ResponseEntity.ok()

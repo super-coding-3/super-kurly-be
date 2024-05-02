@@ -9,6 +9,7 @@ import com.kurly.api.jpa.entity.Options;
 import com.kurly.api.jpa.repository.ItemRepository;
 import com.kurly.api.jpa.repository.MemberRepository;
 import com.kurly.api.jpa.repository.OptionRepository;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -49,21 +50,21 @@ public class BasketController {
    @PostMapping("/order")
    public String orderProduct(@RequestBody BasketProductModel basketProductModel) {return null;}
 
-   @PostMapping("/{id}/{item_id}/{amount}")
-   public void itemBasket(@PathVariable("id") Long id,
-                          @PathVariable("item_id") Long itemId,
+   @PostMapping("/{item_id}/{amount}")
+   @Operation(summary = "장바구니 담기")
+   public void itemBasket(@PathVariable("item_id") Long itemId,
                           @PathVariable("amount") Integer amount,
                           @RequestParam(value = "option_id", required = false) Long optionId)
     {
 
-        Member member = memberRepository.findByMember(id);
         Item item=itemRepository.findItemByID(itemId);
         Options options=optionRepository.findByOptionId(optionId);
 
-       basketService.createCart(member,item,amount,options);
+       basketService.createCart(item,amount,options);
    }
 
    @GetMapping("/mycart")
+   @Operation(summary = "장바구니 보기")
     public ResponseEntity<List<MyCartModel>> showMyCart(){
        List<MyCartModel> myCartModels= basketService.showMyCart();
        return ResponseEntity.ok().body(myCartModels);
