@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.Instant;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public interface ItemService {
 
     Item save(Item item);
 
-    Item createItem(ItemRqModel model);
+    Item createItem(ItemRqModel model, MultipartFile imgFile, MultipartFile descriptionImgFile, MultipartFile productInformationImgFile)throws IOException;
 
     String saveImage(Item item, MultipartFile image, Instant date);
 

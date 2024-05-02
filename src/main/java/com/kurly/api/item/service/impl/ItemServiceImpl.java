@@ -56,12 +56,22 @@ public class ItemServiceImpl implements ItemService {
 
         return itemRepository.save(item);
     }
-
     @Override
-    public  Item createItem(ItemRqModel model){
-
+    public Item createItem(ItemRqModel model, MultipartFile imgFile, MultipartFile descriptionImgFile, MultipartFile productInformationImgFile)throws IOException{
+        // ItemRqModel을 Item 엔티티로 변환
         Item item = model.toEntity(Instant.now());
 
+        // 이미지를 S3에 업로드하고 URL을 반환받습니다.
+        String imgUrl = imgFile != null ? s3Uploader.upload(imgFile, "img") : "";
+        String descriptionImgUrl = descriptionImgFile != null ? s3Uploader.upload(descriptionImgFile, "description_img") : "";
+        String productInformationImgUrl = productInformationImgFile != null ? s3Uploader.upload(productInformationImgFile, "product_information_img") : "";
+
+        // 업로드된 이미지의 URL을 Item 엔티티에 저장합니다.
+        item.setImg(imgUrl);
+        item.setDescriptionImg(descriptionImgUrl);
+        item.setProductInformationImg(productInformationImgUrl);
+
+        // Item 엔티티를 저장하고 저장된 엔티티를 반환합니다.
         return itemRepository.save(item);
     }
 

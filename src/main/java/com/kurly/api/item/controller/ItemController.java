@@ -1,6 +1,7 @@
 package com.kurly.api.item.controller;
 
 import com.kurly.api.common.support.exception.CustomException;
+import com.kurly.api.config.S3Uploader;
 import com.kurly.api.item.model.*;
 import com.kurly.api.jpa.entity.Item;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,6 +13,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 import java.time.Instant;
 import java.util.List;
 
@@ -41,6 +44,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Slf4j
 public class ItemController {
     private final ItemService itemService;
+    private final S3Uploader s3Uploader;
 
     @PostMapping(value = "/posts",consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     @Operation(summary = "물품등록")
@@ -68,11 +72,23 @@ public class ItemController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/createItem")
+    @PostMapping(value = "/createItem",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "물품등록 2")
-    public ResponseEntity<?> createItem(@RequestBody ItemRqModel model){
-        Item item = itemService.createItem(model);
-        return ResponseEntity.ok(item);
+    public ResponseEntity<?> createItem(@RequestPart ItemRqModel model,
+                                        @RequestPart(value = "imgFile",required = false) MultipartFile imgFile,
+                                        @RequestPart(value = "descriptionImgFile",required = false) MultipartFile descriptionImgFile,
+                                        @RequestPart(value = "productInformationImgFile",required = false) MultipartFile productInformationImgFile) {
+        try {
+            // Item을 생성하고 저장합니다. 이미지 파일은 MultipartFile 형식으로 전달됩니다.
+            Item item = itemService.createItem(model, imgFile, descriptionImgFile, productInformationImgFile);
+
+            // 생성된 Item을 반환합니다.
+            return ResponseEntity.ok(item);
+        } catch (IOException e) {
+            // 이미지 업로드 실패 시 예외 처리
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload image");
+        }
     }
 
 
