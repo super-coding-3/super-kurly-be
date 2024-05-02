@@ -1,9 +1,7 @@
 package com.kurly.api.item.controller;
 
 import com.kurly.api.common.support.exception.CustomException;
-import com.kurly.api.item.model.ItemImagePostResponseDto;
-import com.kurly.api.item.model.ItemModel;
-import com.kurly.api.item.model.ItemPostRequestDto;
+import com.kurly.api.item.model.*;
 import com.kurly.api.jpa.entity.Item;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import java.time.Instant;
 import java.util.List;
 
-import com.kurly.api.item.model.ItemAllPage;
 import com.kurly.api.item.service.ItemService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -70,6 +67,14 @@ public class ItemController {
 
         return ResponseEntity.ok(response);
     }
+
+    @PostMapping("/createItem")
+    @Operation(summary = "물품등록 2")
+    public ResponseEntity<?> createItem(@RequestBody ItemRqModel model){
+        Item item = itemService.createItem(model);
+        return ResponseEntity.ok(item);
+    }
+
 
 //    @PostMapping("{id}/image")
 //    @Operation(summary = "물품 이미지 등록")

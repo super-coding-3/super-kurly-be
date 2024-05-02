@@ -58,6 +58,14 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    public  Item createItem(ItemRqModel model){
+
+        Item item = model.toEntity(Instant.now());
+
+        return itemRepository.save(item);
+    }
+
+    @Override
     public String saveImage(Item item, MultipartFile image, Instant date) {
         String fileUrl = uploadImage(item.getProductId(), image, date);
         item.setImg(fileUrl);

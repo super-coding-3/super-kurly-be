@@ -2,6 +2,7 @@ package com.kurly.api.item.service;
 
 import com.kurly.api.item.model.ItemAllPage;
 import com.kurly.api.item.model.ItemModel;
+import com.kurly.api.item.model.ItemRqModel;
 import com.kurly.api.jpa.entity.Item;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +25,8 @@ import java.util.List;
 public interface ItemService {
 
     Item save(Item item);
+
+    Item createItem(ItemRqModel model);
 
     String saveImage(Item item, MultipartFile image, Instant date);
 
