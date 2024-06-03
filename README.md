@@ -27,3 +27,6 @@
 + Security : JWT
 + API 문서화 : Swagger
 + AWS : EC2 , RDS , S3# KkoSoonNae-BE
+
+### 브랜치 전략
+
